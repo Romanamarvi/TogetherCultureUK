@@ -1,0 +1,86 @@
+/* General Styles */
+body {
+    margin: 20;
+    padding: 20;
+    font-family: Arial, sans-serif;
+    background: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+  }
+  
+  /* Container for the login form */
+  .container {
+    max-width: 400px;
+    width: 100%;
+    padding: 30px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  /* Logo styling */
+  .logo {
+    width: 150px;
+    margin-bottom: 20px;
+  }
+  
+  /* Heading style */
+  h2 {
+    margin-bottom: 25px;
+    color: #333;
+  }
+  
+  /* Form layout */
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  /* Input field styles */
+  input[type="email"],
+  input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+  
+  /* Button styles */
+  .btn {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background: #3498db;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+  }
+  
+  .btn:hover {
+    background: #2980b9;
+  }
+  
+  /* Sign-up link styling */
+  .signup-link {
+    margin-top: 20px;
+    font-size: 14px;
+  }
+  
+  .signup-link a {
+    color: #3498db;
+    text-decoration: none;
+  }
+  
+  .signup-link a:hover {
+    text-decoration: underline;
+  }
+  
