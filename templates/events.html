@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event and Activity Management</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .navbar {
+            background-color: #333;
+        }
+        .navbar-brand, .nav-link {
+            color: #fff !important;
+            font-size: 150%
+        }
+        .nav-link {
+            color: #fff !important;
+            font-size: 100%
+        }
+        .welcome-message {
+            color: #fff;
+            margin-right: 20px;
+        }
+        .event-card {
+            transition: transform 0.2s;
+        }
+        .event-card:hover {
+            transform: scale(1.02);
+        }
+        .footer {
+            background-color: #5D5C61;
+            color: #fff;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        .footer a {
+            color: #fff;
+            margin: 0 10px;
+        }
+        .footer a:hover {
+            color: #333;
+        }
+        .badge-upcoming {
+            background-color: #333; /* Green */
+        }
+        .badge-ongoing {
+            background-color: #ffc107; /* Yellow */
+        }
+        .badge-completed {
+            background-color: #dc3545; /* Red */
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Together Culture</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#">Events</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Members</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Settings</a>
+                    </li>
+                </ul>
+                <span class="welcome-message">Welcome, {{ user.username }}!</span>
+                <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Upcoming Events</h1>
+
+        <!-- Event Filtering and Search -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <input type="text" class="form-control" placeholder="Search events...">
+            </div>
+            <div class="col-md-3">
+                <select class="form-select">
+                    <option selected>Filter by Category</option>
+                    <option value="1">Workshops</option>
+                    <option value="2">Social Gatherings</option>
+                    <option value="3">Creative Sessions</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <input type="date" class="form-control">
+            </div>
+        </div>
+        
+
+        <!-- Event Cards -->
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card event-card">
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">Creative Writing Workshop</h5>
+                        <p class="card-text">Join us for a hands-on creative writing session.</p>
+                        <p><strong>Date:</strong> 2023-10-15</p>
+                        <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
+                        <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
+                        <button class="btn btn-primary">Book Now</button>
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal1">Details</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card event-card">
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">Art Exhibition</h5>
+                        <p class="card-text">Explore the latest works from local artists on Streets</p>
+                        <p><strong>Date:</strong> 2023-10-20</p>
+                        <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
+                        <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
+                        <button class="btn btn-primary">Book Now</button>
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal2">Details</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="card event-card">
+                    
+                    <div class="card-body">
+                        <h5 class="card-title">Community Potluck</h5>
+                        <p class="card-text">Bring a dish and enjoy a meal with the community.</p>
+                        <p><strong>Date:</strong> 2023-10-25</p>
+                        <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
+                        <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
+                        <button class="btn btn-primary">Book Now</button>
+                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal3">Details</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card event-card">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">Painting Workshop</h5>
+                            <p class="card-text">Join us for a hands-on creative writing session.</p>
+                            <p><strong>Date:</strong> 2023-10-15</p>
+                            <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
+                            <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
+                            <button class="btn btn-primary">Book Now</button>
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal1">Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card event-card">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">Kite Flying</h5>
+                            <p class="card-text">Explore the latest works from local artists on Streets</p>
+                            <p><strong>Date:</strong> 2023-10-20</p>
+                            <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
+                            <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
+                            <button class="btn btn-primary">Book Now</button>
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal2">Details</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card event-card">
+                        
+                        <div class="card-body">
+                            <h5 class="card-title">Flower Exhibition</h5>
+                            <p class="card-text">Bring a dish and enjoy a meal with the community.</p>
+                            <p><strong>Date:</strong> 2023-10-25</p>
+                            <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
+                            <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
+                            <button class="btn btn-primary">Book Now</button>
+                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal3">Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                </li>
+                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Event Notifications -->
+        <div class="alert alert-info" role="alert">
+            <i class="fas fa-bell"></i> You have 2 upcoming events. <a href="#" class="alert-link">View details</a>.
+        </div>
+    </div>
+
+    <!-- Event Details Modals -->
+    <!-- Modal 1 -->
+    <div class="modal fade" id="eventModal1" tabindex="-1" aria-labelledby="eventModal1Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModal1Label">Creative Writing Workshop</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Date:</strong> 2023-10-15</p>
+                    <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
+                    <p><strong>Location:</strong> Community Hall, Room 101</p>
+                    <p><strong>Description:</strong> Join us for a hands-on creative writing session where you'll learn techniques to improve your storytelling skills.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 2 -->
+    <div class="modal fade" id="eventModal2" tabindex="-1" aria-labelledby="eventModal2Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModal2Label">Art Exhibition</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Date:</strong> 2023-10-20</p>
+                    <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
+                    <p><strong>Location:</strong> Art Gallery, Main Hall</p>
+                    <p><strong>Description:</strong> Explore the latest works from local artists and get inspired by their creativity.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal 3 -->
+    <div class="modal fade" id="eventModal3" tabindex="-1" aria-labelledby="eventModal3Label" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="eventModal3Label">Community Potluck</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p><strong>Date:</strong> 2023-10-25</p>
+                    <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
+                    <p><strong>Location:</strong> Community Center, Dining Hall</p>
+                    <p><strong>Description:</strong> Bring a dish and enjoy a meal with the community. A great opportunity to meet new people and share delicious food.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Book Now</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p>Follow us on:</p>
+            <a href="#" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
+            <a href="#" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
+            <p class="mt-3">&copy; 2023 Together Culture. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS and Dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

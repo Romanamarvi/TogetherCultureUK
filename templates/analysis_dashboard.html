@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Data Analysis Dashboard - Together Culture</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Navigation Bar */
+    .navbar {
+      background: #333;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .navbar .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+    }
+    .navbar .nav-links a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 1rem;
+      padding: 5px 0;
+    }
+    .navbar .user-info {
+      margin-right: 10px;
+      font-size: 1rem;
+    }
+    .navbar .logout-btn {
+      padding: 8px 15px;
+      background: #dc3545;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .navbar .logout-btn:hover {
+      background: #c82333;
+    }
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    /* Section Styles */
+    section {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      margin-bottom: 15px;
+      color: #007BFF;
+    }
+    /* Community Journey Tracking */
+    .community-journey ul {
+      list-style-type: decimal;
+      margin-left: 20px;
+    }
+    /* Behavioral Tagging (Sample Tag Cloud) */
+    .tag-cloud span {
+      background: #e0f7fa;
+      padding: 5px 10px;
+      margin: 5px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    /* Graph Container */
+    .graph-container {
+      position: relative;
+      width: 100%;
+      max-width: 800px;
+      margin: auto;
+    }
+    /* Custom Report Form */
+    .report-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .report-form input, .report-form select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      flex: 1;
+      min-width: 150px;
+    }
+    .report-form button {
+      padding: 10px 20px;
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Export Button */
+    .export-btn {
+      margin-top: 15px;
+      padding: 10px 20px;
+      background: #ffc107;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    footer p {
+      margin: 5px 0;
+    }
+    footer a {
+      color: #fff;
+      margin: 0 5px;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .navbar .nav-links {
+        margin-top: 10px;
+      }
+      .report-form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Together Culture</div>
+    <div class="nav-links">
+      <a href="#">Data Analysis</a>
+      <a href="#">Members</a>
+      <span class="user-info">Welcome, {{ request.user.username }}</span>
+
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+       
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Community Journey Tracking Section -->
+    <section class="community-journey">
+      <h2>Community Journey Tracking</h2>
+      <p>Track how members advance along the community journey to recognize significant engagement patterns:</p>
+      <ul>
+        <li>Sign Up &amp; Orientation</li>
+        <li>Initial Engagement</li>
+        <li>Active Participation</li>
+        <li>Advanced Engagement</li>
+        <li>Community Leadership</li>
+      </ul>
+    </section>
+
+    <!-- Behavioral Tagging Section -->
+    <section class="behavioral-tagging">
+      <h2>Behavioral Tagging</h2>
+      <p>Tags assigned based on member interests and interactions:</p>
+      <div class="tag-cloud">
+        <span>Active</span>
+        <span>Creative</span>
+        <span>Collaborative</span>
+        <span>Innovative</span>
+        <span>Supportive</span>
+      </div>
+    </section>
+
+    <!-- Trend Analysis Dashboard Section -->
+    <section class="trend-analysis">
+      <h2>Trend Analysis Dashboard</h2>
+      <p>Visual reports and charts that consolidate engagement data:</p>
+      <div class="graph-container">
+        <canvas id="trendChart"></canvas>
+      </div>
+      <script>
+        // Sample Chart.js line graph
+        const ctx = document.getElementById('trendChart').getContext('2d');
+        const trendChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], // Sample data labels
+            datasets: [{
+              label: 'Member Engagement',
+              data: [15, 25, 10, 30, 20, 35], // Sample data values
+              backgroundColor: 'rgba(0, 123, 255, 0.2)',
+              borderColor: 'rgba(0, 123, 255, 1)',
+              borderWidth: 2,
+              fill: true,
+            }]
+          },
+          options: {
+            responsive: true,
+            scales: {
+              y: {
+                beginAtZero: true,
+              }
+            }
+          }
+        });
+      </script>
+    </section>
+
+    <!-- Custom Report Generation Section -->
+    <section class="custom-report">
+      <h2>Custom Report Generation</h2>
+      <p>Create tailored reports by applying filters to data (e.g., events, dates, member tags):</p>
+      <form class="report-form">
+        <input type="text" placeholder="Event Name" name="event_name">
+        <input type="date" name="start_date">
+        <input type="date" name="end_date">
+        <select name="tag">
+          <option value="">Select Tag</option>
+          <option value="active">Active</option>
+          <option value="creative">Creative</option>
+          <option value="collaborative">Collaborative</option>
+          <option value="innovative">Innovative</option>
+        </select>
+        <button type="submit">Generate Report</button>
+      </form>
+    </section>
+
+    <!-- Data Export Functionality Section -->
+    <section class="data-export">
+      <h2>Data Export Functionality</h2>
+      <p>Export member and activity data for further analysis using external tools:</p>
+      <button class="export-btn">Export Data</button>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Together Culture. All Rights Reserved.</p>
+    <p>
+      Follow us:
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </p>
+  </footer>
+</body>
+</html>

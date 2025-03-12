@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Membership Dashboard - Together Culture</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* Reset and Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Navigation Bar */
+    .navbar {
+      background: #333;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .navbar .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar .nav-links a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 1rem;
+      padding: 5px 0;
+    }
+    .navbar .user-info {
+      margin-right: 20px;
+      font-size: 1rem;
+    }
+    .navbar .logout-btn {
+      padding: 8px 15px;
+      background: #dc3545;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .navbar .logout-btn:hover {
+      background: #c82333;
+    }
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    /* Section Styles */
+    section {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      margin-bottom: 15px;
+      color: #333;
+    }
+    /* Benefits Dashboard */
+    .benefits {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .benefit-card {
+      flex: 1;
+      min-width: 250px;
+      background: #fafafa;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    .benefit-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .benefit-card ul {
+      list-style: disc inside;
+    }
+    /* Upgrade Request Form */
+    .upgrade-request form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .upgrade-request select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .upgrade-request button {
+      padding: 10px 20px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Renewal Alert */
+    .renewal-alert p {
+      margin-bottom: 15px;
+    }
+    .renewal-alert .renew-btn {
+      padding: 10px 20px;
+      background: #333;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Membership Differentiation (Admin View) */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #ddd;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #f0f0f0;
+    }
+    table button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    table button:hover {
+      opacity: 0.8;
+    }
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    footer p {
+      margin: 5px 0;
+    }
+    footer a {
+      color: #fff;
+      margin: 0 5px;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .navbar .nav-links {
+        margin-top: 10px;
+      }
+      .benefits {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="logo">Together Culture</div>
+    <div class="nav-links">
+        <a href='#'>Home</a>
+        <a href="{% url 'membership_dashboard' %}">Dashboard</a>
+        <span class="user-info">Welcome, {{ request.user.username }}</span>
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">Logout</button>
+        </form>
+    </div>
+</nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- Benefits Dashboard Section -->
+    <section class="benefits-dashboard">
+      <h2>Your Benefits Dashboard</h2>
+      <div class="benefits">
+        <div class="benefit-card used">
+          <h3>Used Benefits</h3>
+          <ul>
+            <li>Workshop Access</li>
+            <li>Networking Events</li>
+            <li>Newsletter Subscription</li>
+          </ul>
+        </div>
+        <div class="benefit-card unused">
+          <h3>Unused Benefits</h3>
+          <ul>
+            <li>Creative Workspace</li>
+            <li>Mentorship Sessions</li>
+            <li>Priority Booking</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- Membership Upgrade Request Section -->
+    <section class="upgrade-request">
+      <h2>Membership Upgrade Requests</h2>
+      <form id="upgrade-form">
+        <label for="upgrade-type">Select New Membership Type:</label>
+        <select id="upgrade-type" name="upgrade-type" required>
+          <option value="">Select Type</option>
+          <option value="community">Community Member</option>
+          <option value="key-access">Key Access Member</option>
+          <option value="creative-workspace">Creative Workspace Member</option>
+        </select>
+        <button type="submit">Request Upgrade</button>
+      </form>
+    </section>
+
+    <!-- Membership Renewal & Expiry Alerts Section -->
+    <section class="renewal-alert">
+      <h2>Membership Renewal & Expiry Alerts</h2>
+      <p>Your membership will expire in 15 days. Please renew now to continue enjoying your benefits.</p>
+      <button class="renew-btn">Renew Now</button>
+    </section>
+
+    <!-- Membership Differentiation (Admin View) Section -->
+    <section class="membership-differentiation">
+      <h2>Membership Types (Admin View)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Type</th>
+            <th>Description</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Community Member</td>
+            <td>Basic access to community events and resources.</td>
+            <td>
+              <button>Edit</button>
+              <button>Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Key Access Member</td>
+            <td>Priority and exclusive access to select events and benefits.</td>
+            <td>
+              <button>Edit</button>
+              <button>Delete</button>
+            </td>
+          </tr>
+          <tr>
+            <td>Creative Workspace Member</td>
+            <td>Access to creative resources and workspace facilities.</td>
+            <td>
+              <button>Edit</button>
+              <button>Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Together Culture. All Rights Reserved.</p>
+    <p>
+      Follow us:
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </p>
+  </footer>
+</body>
+</html>

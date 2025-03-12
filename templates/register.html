@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="Register_styles.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Register_styles.css' %}">
+</head>
+<body>
+    <div class="registration-container">
+        <h2>Register for <span>Together Culture</span></h2>
+        <form id="registration-form">
+            <!-- Name -->
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="name" name="name" placeholder="Name" required>
+            </div>
+        
+            <!-- Email -->
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" name="email" placeholder="Email" required>
+            </div>
+        
+            <!-- Password -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+        
+            <!-- Confirm Password -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm Password" required>
+            </div>
+        
+            <!-- Date of Birth -->
+            <div class="input-group">
+                <i class="fas fa-calendar-alt"></i>
+                <input type="date" id="dob" name="dob" required>
+            </div>
+        
+            <!-- Interests -->
+            <div class="input-group interests">
+                <label>Interests:</label>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" name="interests" value="Working"> Working</label>
+                    <label><input type="checkbox" name="interests" value="Sharing"> Sharing</label>
+                    <label><input type="checkbox" name="interests" value="Experiencing"> Experiencing</label>
+                    <label><input type="checkbox" name="interests" value="Creating"> Creating</label>
+                </div>
+            </div>
+        
+            <!-- Benefits -->
+            <div class="input-group">
+                <i class="fas fa-gift"></i>
+                <textarea id="benefits" name="benefits" rows="4" placeholder="Describe the benefits you're interested in"></textarea>
+            </div>
+        
+            <!-- Membership Type -->
+            <div class="input-group">
+                <i class="fas fa-users"></i>
+                <select id="membership-type" name="membership-type" required>
+                    <option value="">Select Membership Type</option>
+                    <option value="community">Community Member</option>
+                    <option value="key-access">Key Access Member</option>
+                    <option value="creative-workspace">Creative Workspace Member</option>
+                </select>
+            </div>
+        
+            <!-- Contact -->
+            <div class="input-group">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="contact" name="contact" placeholder="Contact" required>
+            </div>
+        
+            <!-- Address -->
+            <div class="input-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <textarea id="address" name="address" rows="4" placeholder="Address" required></textarea>
+            </div>
+        
+            <!-- Submit Button -->
+            <button type="submit">Register</button>
+        </form>
+        
+        
+
+        <!-- Link to Login Page -->
+        <p>Already have an account? <a href="{% url 'login' %}">Login here</a>.</p>
+    </div>
+
+    <script src="{% static 'script.js' %}"></script>
+</body>
+<script>
+    document.getElementById('registration-form').addEventListener('submit', function (e) {
+    e.preventDefault();  // Prevent the default form submission
+
+    // Get form data
+    const data = {
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+        confirm_password: document.getElementById('confirm-password').value,
+        dob: document.getElementById('dob').value,
+        interests: Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(checkbox => checkbox.value),
+        benefits: document.getElementById('benefits').value,
+        membership_type: document.getElementById('membership-type').value,
+        contact: document.getElementById('contact').value,
+        address: document.getElementById('address').value,
+    };
+
+    // Send a POST request to the Django backend
+    fetch('/auth/register/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}',  // Add CSRF token for Django
+        },
+        body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+        alert(data.message);  // Show a success or error message
+        if (data.user) {
+            window.location.href = '/members/';  // Redirect to members page
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+</script>
+</html>

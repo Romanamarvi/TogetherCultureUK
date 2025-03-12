@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registered Members</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            background-color: #afaab3;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .top-nav h1 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        /* Left Vertical Navigation Bar */
+        .left-nav {
+            background-color: #5D5C61;
+            width: 200px;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .left-nav a {
+            display: block;
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .left-nav a:hover {
+            background-color: #afaab3;
+        }
+
+        .left-nav a.active {
+            background-color: #afaab3;
+            font-weight: bold;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+        }
+
+        .content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        /* Member List Styles */
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: white;
+            margin-bottom: 20px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease-in-out;
+        }
+
+        li:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .member-name {
+            font-weight: bold;
+            color: #afaab3;
+            font-size: 1.2em;
+        }
+
+        .member-detail {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .member-detail strong {
+            color: #333;
+        }
+
+        .no-members {
+            text-align: center;
+            color: #888;
+        }
+
+        /* Buttons for Reject/Approve */
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .action-buttons button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.9em;
+            transition: background-color 0.3s ease;
+        }
+
+        .action-buttons button.approve {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .action-buttons button.approve:hover {
+            background-color: #45a049;
+        }
+
+        .action-buttons button.reject {
+            background-color: #f44336;
+            color: white;
+        }
+
+        .action-buttons button.reject:hover {
+            background-color: #e53935;
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #5D5C61;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <h1>Together Culture</h1>
+    </div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Left Vertical Navigation Bar -->
+        <div class="left-nav">
+            <a href="#">Events</a>
+            <a href="#" class="active">Members</a>
+            <a href="#">Settings</a>
+        </div>
+
+        <!-- Content Area -->
+        <!-- member_list.html -->
+<div class="content">
+        <h1>Registered Members</h1>
+        <ul>
+            {% for member in members %}
+                <li>
+                    <div class="member-name">{{ member.first_name }}</div>
+                    <div class="member-detail"><strong>Email:</strong> {{ member.email }}</div>
+                    <div class="member-detail"><strong>Date of Birth:</strong> {{ member.profile.dob }}</div>
+                    <div class="member-detail"><strong>Interests:</strong> {{ member.profile.interests }}</div>
+                    <div class="member-detail"><strong>Benefits:</strong> {{ member.profile.benefits }}</div>
+                    <div class="member-detail"><strong>Membership Type:</strong> {{ member.profile.membership_type }}</div>
+                    <div class="member-detail"><strong>Contact:</strong> {{ member.profile.contact }}</div>
+                    <div class="member-detail"><strong>Address:</strong> {{ member.profile.address }}</div>
+                    <!-- Reject/Approve Buttons -->
+                    <div class="action-buttons">
+                        <button class="approve">Approve</button>
+                        <button class="reject">Reject</button>
+                    </div>
+                </li>
+            {% empty %}
+                <li class="no-members">No members found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2023 Together Culture. All rights reserved.
+    </div>
+
+    <script>
+        // Example of adding interactivity for Reject/Approve buttons
+        document.querySelectorAll('.action-buttons button').forEach(button => {
+            button.addEventListener('click', () => {
+                const memberName = button.closest('li').querySelector('.member-name').textContent;
+                const action = button.classList.contains('approve') ? 'Approved' : 'Rejected';
+                alert(`${action}: ${memberName}`);
+            });
+        });
+    </script>
+</body>
+</html>

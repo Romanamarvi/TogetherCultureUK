@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard - Together Culture</title>
+  <!-- Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Chart.js Library -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f9f9f9;
+      color: #333;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Navbar */
+    .navbar {
+      background: #333;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .navbar .nav-links {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .navbar .nav-links a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 1rem;
+      padding: 5px 0;
+    }
+    .navbar .user-info {
+      margin-right: 10px;
+      font-size: 1rem;
+    }
+    .navbar .logout-btn {
+      padding: 8px 15px;
+      background: #666;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .navbar .logout-btn:hover {
+      background: #c82333;
+    }
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    /* Section Styles */
+    section {
+      background: #fff;
+      margin-bottom: 20px;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      margin-bottom: 15px;
+      color: #666;
+    }
+    /* 1. Manual Member Addition */
+    .manual-add form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .manual-add input, .manual-add select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .manual-add button {
+      padding: 10px 20px;
+      background: #666;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* 2. Member Activity Search */
+    .activity-search form {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+    .activity-search input {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      flex: 1;
+    }
+    .activity-search button {
+      padding: 10px 20px;
+      background: #666;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .activity-results {
+      border-top: 1px solid #ddd;
+      padding-top: 10px;
+    }
+    .activity-results table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .activity-results th, .activity-results td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    .activity-results th {
+      background: #f0f0f0;
+    }
+    /* 3. Event Attendance Monitoring with Chart */
+    .attendance table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    .attendance th, .attendance td {
+      border: 1px solid #ddd;
+      padding: 10px;
+      text-align: left;
+    }
+    .attendance th {
+      background: #f0f0f0;
+    }
+    .chart-container {
+      position: relative;
+      height: 300px;
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    /* 4. Bulk Communication Tools */
+    .bulk-communication form {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .bulk-communication textarea {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      width: 100%;
+      min-height: 100px;
+    }
+    .bulk-communication button {
+      padding: 10px 20px;
+      background: #666;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      align-self: flex-start;
+    }
+    /* 5. System Alerts and Anomaly Detection */
+    .alerts {
+      padding: 10px;
+      background: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 4px;
+      color: #721c24;
+    }
+    /* Footer */
+    footer {
+      background: #333;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    footer p {
+      margin: 5px 0;
+    }
+    footer a {
+      color: #fff;
+      margin: 0 5px;
+    }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .navbar .nav-links {
+        margin-top: 10px;
+      }
+      .manual-add form,
+      .activity-search form,
+      .bulk-communication form {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="logo">Together Culture Admin</div>
+    <div class="nav-links">
+      <a href="#">Dashboard</a>
+      <a href="#">Members</a>
+      <a href="#">Events</a>
+      <a href="#">Reports</a>
+      <a href="#">Settings</a>
+      <span class="user-info">Welcome,User</span>
+      <form action="{% url 'logout' %}" method="post" style="display:inline;">
+    
+        <button type="submit" class="logout-btn">Logout</button>
+      </form>
+    </div>
+  </nav>
+
+  <!-- Main Container -->
+  <div class="container">
+    <!-- 1. Manual Member Addition Section -->
+    <section class="manual-add">
+      <h2>Manual Member Addition</h2>
+      <form id="manual-add-form">
+        <input type="text" name="name" placeholder="Full Name" required>
+        <input type="email" name="email" placeholder="Email" required>
+        <input type="text" name="contact" placeholder="Contact" required>
+        <input type="text" name="address" placeholder="Address" required>
+        <button type="submit">Add Member</button>
+      </form>
+    </section>
+
+    <!-- 2. Member Activity Search Section -->
+    <section class="activity-search">
+      <h2>Member Activity Search</h2>
+      <form id="activity-search-form">
+        <input type="text" name="search_query" placeholder="Search by name or email" required>
+        <button type="submit">Search</button>
+      </form>
+      <div class="activity-results">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Activity</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Sample Activity Data -->
+            <tr>
+              <td>John Doe</td>
+              <td>john@example.com</td>
+              <td>Attended Event</td>
+              <td>Mar 10, 2025</td>
+            </tr>
+            <tr>
+              <td>Jane Smith</td>
+              <td>jane@example.com</td>
+              <td>Booked Workshop</td>
+              <td>Mar 12, 2025</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 3. Event Attendance Monitoring Section with Chart -->
+    <section class="attendance">
+      <h2>Event Attendance Monitoring</h2>
+      <!-- Chart Container -->
+      <div class="chart-container">
+        <canvas id="attendanceChart"></canvas>
+      </div>
+      <!-- Attendance Table -->
+      <table>
+        <thead>
+          <tr>
+            <th>Event Name</th>
+            <th>Date</th>
+            <th>Attendees</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Community Meetup</td>
+            <td>Mar 15, 2025</td>
+            <td>45</td>
+          </tr>
+          <tr>
+            <td>Creative Workshop</td>
+            <td>Mar 20, 2025</td>
+            <td>30</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- 4. Bulk Communication Tools Section -->
+    <section class="bulk-communication">
+      <h2>Bulk Communication Tools</h2>
+      <form id="bulk-communication-form">
+        <textarea name="message" placeholder="Type your message here..." required></textarea>
+        <button type="submit">Send Message</button>
+      </form>
+    </section>
+
+    <!-- 5. System Alerts and Anomaly Detection Section -->
+    <section class="system-alerts">
+      <h2>System Alerts and Anomaly Detection</h2>
+      <div class="alerts">
+        <p><strong>Alert:</strong> Unusual login activity detected for user john@example.com.</p>
+        <p><strong>Alert:</strong> Multiple failed login attempts detected for user jane@example.com.</p>
+      </div>
+    </section>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2025 Together Culture. All Rights Reserved.</p>
+    <p>
+      Follow us:
+      <a href="#"><i class="fab fa-facebook-f"></i></a>
+      <a href="#"><i class="fab fa-twitter"></i></a>
+      <a href="#"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-linkedin-in"></i></a>
+    </p>
+  </footer>
+
+  <!-- Chart.js Script for Attendance Chart -->
+  <script>
+    const ctx = document.getElementById('attendanceChart').getContext('2d');
+    const attendanceChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Community Meetup', 'Creative Workshop'], // Event names
+        datasets: [{
+          label: 'Number of Attendees',
+          data: [45, 30], // Sample data values
+          backgroundColor: [
+            'rgba(0, 123, 255, 0.7)',
+            'rgba(40, 167, 69, 0.7)'
+          ],
+          borderColor: [
+            'rgba(0, 123, 255, 1)',
+            'rgba(40, 167, 69, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              stepSize: 5
+            }
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>

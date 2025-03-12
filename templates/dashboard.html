@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Member Dashboard - Together Culture</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- External Font Awesome for icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Link to your dashboard CSS -->
+  <link rel="stylesheet" href="{% static 'dashboard.css' %}">
+</head>
+<body>
+  <!-- Header -->
+  <header class="dashboard-header">
+    <div class="logo">Together Culture</div>
+    <nav>
+      <ul>
+        <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+        <li><a href="{% url 'profile' %}">Profile</a></li>
+        <li><a href="{% url 'events' %}">Events</a></li>
+        <li><a href="{% url 'benefits' %}">Benefits</a></li>
+        <li><a href="{% url 'logout' %}">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <ul>
+        <li><a href="{% url 'dashboard' %}"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="{% url 'profile' %}"><i class="fas fa-user"></i> My Profile</a></li>
+        <li><a href="{% url 'book_event' %}"><i class="fas fa-calendar-plus"></i> Book Event</a></li>
+        <li><a href="{% url 'benefits' %}"><i class="fas fa-gift"></i> Benefits</a></li>
+        <li><a href="{% url 'digital_connections' %}"><i class="fas fa-link"></i> Connections</a></li>
+        <li><a href="{% url 'chat' %}"><i class="fas fa-comments"></i> Chat</a></li>
+      </ul>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="dashboard-content">
+      <h1>Welcome, {{ user.first_name }}!</h1>
+      <div class="dashboard-overview">
+        <!-- Upcoming Events Card -->
+        <div class="overview-card">
+          <h2>Upcoming Events</h2>
+          <ul>
+            {% for event in upcoming_events %}
+              <li>{{ event.title }} on {{ event.date|date:"M d, Y" }}</li>
+            {% empty %}
+              <li>No upcoming events.</li>
+            {% endfor %}
+          </ul>
+        </div>
+
+        <!-- Benefits Usage Card -->
+        <div class="overview-card">
+          <h2>Benefits Usage</h2>
+          <p>You have used <strong>{{ used_benefits }}</strong> of your available benefits.</p>
+        </div>
+
+        <!-- Interests Card -->
+        <div class="overview-card">
+          <h2>Your Interests</h2>
+          <p>{{ user.profile.interests|default:"Not specified" }}</p>
+        </div>
+      </div>
+      <!-- Additional dashboard content can go here -->
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="dashboard-footer">
+    <p>&copy; 2025 Together Culture. All Rights Reserved.</p>
+  </footer>
+</body>
+</html>
