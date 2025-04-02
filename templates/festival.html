@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Festival - Together Culture UK</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            background-color: #6C5B7B;
+            padding: 1rem;
+        }
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            padding: 0 1rem;
+        }
+        .navbar a:hover {
+            color: #6C5B7B;
+        }
+        .hero {
+            background: url('https://i.imgur.com/festival-banner.jpg') center no-repeat;
+            background-size: cover;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .hero h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.6);
+        }
+        .content {
+            padding: 2rem;
+            text-align: center;
+        }
+        .festival-item {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            padding: 1rem;
+            width: 80%;
+            max-width: 900px;
+        }
+        .festival-item img {
+            width: 100%;
+            height: auto;
+            border-radius: 8px 8px 0 0;
+        }
+        .festival-item h3 {
+            margin: 1rem 0;
+            color: #6C5B7B;
+        }
+        .festival-item p {
+            color: #555;
+        }
+        .cta-button {
+            background-color: #6C5B7B;
+            border: none;
+            padding: 0.5rem 1rem;
+            color: white;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .cta-button:hover {
+            background-color: #6C5B7B;
+        }
+        .footer {
+            background-color: #6C5B7B;
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+        .footer a {
+            color: #6C5B7B;
+            text-decoration: none;
+        }
+        .hero {
+  background: url('https://img.freepik.com/free-psd/creativity-banner-template-with-photo_23-2148908597.jpg') no-repeat center center/cover;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 10, 0, 0.5);
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo" style="color: #fff; font-size: 0.5cm">Together Culture UK</div>
+        <div class="menu">
+            <a href="/">Home</a>
+            <a href="/about">About</a>
+            <a href="{% url 'register' %}">Membership</a>
+            <a href="/Contact">Conatct</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" style="background-image: url('https://www.shutterstock.com/image-vector/colorful-cartoon-art-craft-group-600nw-2459974137.jpg');">
+        <div class="hero-content">
+          <h1>Festival at Together Culture UK</h1>
+         
+        </div>
+      </section>
+    <!-- Festival Content -->
+    <div class="content">
+        <div class="festival-item">
+            <img src="https://cdn.vectorstock.com/i/500p/60/95/womens-history-month-celebration-banner-vector-55136095.jpg" alt="Festival 1">
+            <h3>Upcoming Festival: Celebrate Togetherness</h3>
+            <p>Join us for an unforgettable experience at our upcoming festival. Celebrate creativity, art, music, and a spirit of togetherness. Explore different workshops, cultural performances, and live music that will make this a day to remember.</p>
+            <button class="cta-button">Find Out More</button>
+        </div>
+
+        <div class="festival-item">
+            <img src="https://img.freepik.com/free-vector/eid-al-adha-realistic-festival-banner-design_1017-38050.jpg" alt="Festival 2">
+            <h3>Past Festival:Eid-ul-Fitar</h3>
+            <p>Relive the memories from our recent Festival of Light, where creativity and culture merged in an extraordinary display of community spirit. Check out photos and highlights from the event.</p>
+            <button class="cta-button">View Gallery</button>
+        </div>
+
+        <div class="festival-item">
+            <img src="https://www.shutterstock.com/image-vector/creative-children-hands-flat-illustrations-600nw-2300976711.jpg" alt="Festival 3">
+            <h3>Workshops and Activities</h3>
+            <p>Explore hands-on workshops and fun activities designed to inspire and engage attendees of all ages. From painting, crafting, to music and movement, there's something for everyone.</p>
+            <button class="cta-button">See Workshops</button>
+        </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer class="footer">
+        <p>&copy; 2025 Together Culture UK. All Rights Reserved. <a href="#">Privacy Policy</a></p>
+    </footer>
+
+</body>
+</html>

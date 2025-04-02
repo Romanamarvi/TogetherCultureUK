@@ -11,7 +11,7 @@
 </head>
 <body>
     <div class="registration-container">
-        <h2>Register for <span>Together Culture</span></h2>
+        <h2>Register for <span>Together Culture UK</span></h2>
         <form id="registration-form">
             <!-- Name -->
             <div class="input-group">
@@ -126,7 +126,7 @@
     .then(data => {
         alert(data.message);  // Show a success or error message
         if (data.user) {
-            window.location.href = '/members/';  // Redirect to members page
+            window.location.href = '/login/';  // Redirect to members page
         }
     })
     .catch(error => {
