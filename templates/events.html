@@ -3,307 +3,782 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Event and Activity Management</title>
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Font Awesome for Icons -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
+    <title>Events Management | Together Culture UK</title>
     <style>
+        /* Color variables */
+        :root {
+            --primary: #6C5B7B;
+            --primary-light: #8A6FA8;
+            --primary-dark: #4C3D5F;
+            --secondary: #C06C84;
+            --accent: #F67280;
+            --light: #F8F9FA;
+            --dark: #343A40;
+            --gray-light: #E9ECEF;
+        }
+
+.status-upcoming {
+    background-color: rgba(33, 150, 243, 0.1);
+    color: #2196F3;
+}
+
+.status-past {
+    background-color: rgba(158, 158, 158, 0.1);
+    color: #9E9E9E;
+}
+
+.event-status {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
             background-color: #f8f9fa;
+            color: var(--primary-dark);
         }
-        .navbar {
-            background-color: #333;
+
+        /* Top Navigation Bar */
+        .top-nav {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(108, 91, 123, 0.2);
+            position: relative;
+            z-index: 10;
         }
-        .navbar-brand, .nav-link {
-            color: #fff !important;
-            font-size: 150%
+
+        .top-nav h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
         }
-        .nav-link {
-            color: #fff !important;
-            font-size: 100%
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .welcome-message {
-            color: #fff;
-            margin-right: 20px;
+
+        .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
         }
-        .event-card {
-            transition: transform 0.2s;
+
+        /* Main Layout */
+        .main-content {
+            display: flex;
+            flex: 1;
         }
-        .event-card:hover {
-            transform: scale(1.02);
+
+        /* Left Navigation */
+        .left-nav {
+            width: 240px;
+            background: white;
+            padding: 1.5rem 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 5;
         }
+
+        .nav-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 1rem;
+        }
+
+        .nav-header h2 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .left-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+        }
+
+        .left-nav a i {
+            width: 20px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .left-nav a:hover {
+            background-color: rgba(108, 91, 123, 0.05);
+            color: var(--primary);
+        }
+
+        .left-nav a.active {
+            background-color: rgba(108, 91, 123, 0.1);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            font-weight: 500;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            background-color: var(--light);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background: white;
+            border-radius: 30px;
+            padding: 0.5rem 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            width: 300px;
+        }
+
+        .search-bar input {
+            border: none;
+            outline: none;
+            flex: 1;
+            padding: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .search-bar i {
+            color: var(--primary);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 30px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(to right, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(to right, var(--primary-dark), var(--primary));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(108, 91, 123, 0.3);
+        }
+
+        /* Events Table */
+        .events-table {
+            width: 100%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .events-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .events-table th, 
+        .events-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .events-table th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+
+        .events-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .events-table tr:hover {
+            background-color: rgba(108, 91, 123, 0.03);
+        }
+
+        .event-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .status-active {
+            background-color: rgba(76, 175, 80, 0.1);
+            color: #4CAF50;
+        }
+
+        .status-upcoming {
+            background-color: rgba(33, 150, 243, 0.1);
+            color: #2196F3;
+        }
+
+        .status-past {
+            background-color: rgba(158, 158, 158, 0.1);
+            color: #9E9E9E;
+        }
+
+        .action-btn {
+            padding: 0.5rem;
+            border: none;
+            background: none;
+            cursor: pointer;
+            color: var(--primary);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .action-btn:hover {
+            background-color: rgba(108, 91, 123, 0.1);
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            animation: modalFadeIn 0.3s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            color: var(--primary);
+            font-size: 1.5rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+
+        .close-btn:hover {
+            color: var(--accent);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--primary-dark);
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(108, 91, 123, 0.2);
+        }
+
+        .form-group textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--gray-light);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-outline {
+            background: none;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(108, 91, 123, 0.05);
+        }
+
+        /* Footer */
         .footer {
-            background-color: #5D5C61;
-            color: #fff;
-            padding: 20px 0;
-            margin-top: 40px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
         }
-        .footer a {
-            color: #fff;
-            margin: 0 10px;
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+            margin-bottom: 1.5rem;
         }
-        .footer a:hover {
-            color: #333;
+
+        .footer-column h3 {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+            position: relative;
         }
-        .badge-upcoming {
-            background-color: #333; /* Green */
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 40px;
+            height: 2px;
+            background: var(--accent);
         }
-        .badge-ongoing {
-            background-color: #ffc107; /* Yellow */
+
+        .footer-column p,
+        .footer-column a {
+            color: #E9ECEF;
+            margin-bottom: 0.75rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-size: 0.85rem;
         }
-        .badge-completed {
-            background-color: #dc3545; /* Red */
+
+        .footer-column a:hover {
+            color: var(--accent);
         }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .social-links a {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .header-actions {
+                width: 100%;
+                justify-content: space-between;
+            }
+            
+            .search-bar {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .left-nav {
+                width: 100%;
+                padding: 1rem;
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .nav-header {
+                display: none;
+            }
+            
+            .left-nav a {
+                white-space: nowrap;
+                padding: 0.5rem 1rem;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .left-nav a.active {
+                border-left: none;
+                border-bottom: 3px solid var(--primary);
+            }
+            
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .events-table th, 
+            .events-table td {
+                padding: 0.75rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .modal-content {
+                width: 95%;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .status-active {
+    background-color: rgba(76, 175, 80, 0.1);
+    color: #4CAF50;
+}
+
+
     </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#">Together Culture</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Events</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Members</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Settings</a>
-                    </li>
-                </ul>
-                <span class="welcome-message">Welcome, {{ user.username }}!</span>
-                <a href="{% url 'logout' %}" class="btn btn-outline-light">Logout</a>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mt-5">
-        <h1 class="text-center mb-4">Upcoming Events</h1>
-
-        <!-- Event Filtering and Search -->
-        <div class="row mb-4">
-            <div class="col-md-6">
-                <input type="text" class="form-control" placeholder="Search events...">
-            </div>
-            <div class="col-md-3">
-                <select class="form-select">
-                    <option selected>Filter by Category</option>
-                    <option value="1">Workshops</option>
-                    <option value="2">Social Gatherings</option>
-                    <option value="3">Creative Sessions</option>
-                </select>
-            </div>
-            <div class="col-md-3">
-                <input type="date" class="form-control">
-            </div>
-        </div>
-        
-
-        <!-- Event Cards -->
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="card event-card">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Creative Writing Workshop</h5>
-                        <p class="card-text">Join us for a hands-on creative writing session.</p>
-                        <p><strong>Date:</strong> 2023-10-15</p>
-                        <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
-                        <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
-                        <button class="btn btn-primary">Book Now</button>
-                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal1">Details</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card event-card">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Art Exhibition</h5>
-                        <p class="card-text">Explore the latest works from local artists on Streets</p>
-                        <p><strong>Date:</strong> 2023-10-20</p>
-                        <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
-                        <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
-                        <button class="btn btn-primary">Book Now</button>
-                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal2">Details</button>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-4 mb-4">
-                <div class="card event-card">
-                    
-                    <div class="card-body">
-                        <h5 class="card-title">Community Potluck</h5>
-                        <p class="card-text">Bring a dish and enjoy a meal with the community.</p>
-                        <p><strong>Date:</strong> 2023-10-25</p>
-                        <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
-                        <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
-                        <button class="btn btn-primary">Book Now</button>
-                        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal3">Details</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="card event-card">
-                        
-                        <div class="card-body">
-                            <h5 class="card-title">Painting Workshop</h5>
-                            <p class="card-text">Join us for a hands-on creative writing session.</p>
-                            <p><strong>Date:</strong> 2023-10-15</p>
-                            <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
-                            <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
-                            <button class="btn btn-primary">Book Now</button>
-                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal1">Details</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card event-card">
-                        
-                        <div class="card-body">
-                            <h5 class="card-title">Kite Flying</h5>
-                            <p class="card-text">Explore the latest works from local artists on Streets</p>
-                            <p><strong>Date:</strong> 2023-10-20</p>
-                            <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
-                            <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
-                            <button class="btn btn-primary">Book Now</button>
-                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal2">Details</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="card event-card">
-                        
-                        <div class="card-body">
-                            <h5 class="card-title">Flower Exhibition</h5>
-                            <p class="card-text">Bring a dish and enjoy a meal with the community.</p>
-                            <p><strong>Date:</strong> 2023-10-25</p>
-                            <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
-                            <p><strong>Status:</strong> <span class="badge badge-upcoming">Upcoming</span></p>
-                            <button class="btn btn-primary">Book Now</button>
-                            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#eventModal3">Details</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        
-
-        <!-- Pagination -->
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-center">
-                <li class="page-item disabled">
-                    <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                    <a class="page-link" href="#">Next</a>
-                </li>
-            </ul>
-        </nav>
-
-        <!-- Event Notifications -->
-        <div class="alert alert-info" role="alert">
-            <i class="fas fa-bell"></i> You have 2 upcoming events. <a href="#" class="alert-link">View details</a>.
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <h1>Together Culture UK</h1>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=user&background=6C5B7B&color=fff" alt="{ request.user.username }}">
+            <span class="user-info">Welcome, {{ request.user.username }}</span>
         </div>
     </div>
 
-    <!-- Event Details Modals -->
-    <!-- Modal 1 -->
-    <div class="modal fade" id="eventModal1" tabindex="-1" aria-labelledby="eventModal1Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModal1Label">Creative Writing Workshop</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Left Vertical Navigation Bar -->
+        <div class="left-nav">
+            <div class="nav-header">
+                <h2>Dashboard</h2>
+            </div>
+            <a href="#" class="active"><i class="fas fa-calendar-alt"></i> Events</a>
+            <a href="{% url 'members' %}" ><i class="fas fa-users"></i> Members</a>
+            <a href="{% url 'analysis_dashboard' %}"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        </div>
+
+        <!-- Content Area -->
+        <div class="content">
+            <div class="content-header">
+                <h1>Events Management</h1>
+                <div class="header-actions">
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" placeholder="Search events...">
+                    </div>
+                    <a href="add/" class="btn btn-primary" >
+                        <i class="fas fa-plus"></i> Add Event
+                    </a>
                 </div>
-                <div class="modal-body">
-                    <p><strong>Date:</strong> 2023-10-15</p>
-                    <p><strong>Time:</strong> 10:00 AM - 12:00 PM</p>
-                    <p><strong>Location:</strong> Community Hall, Room 101</p>
-                    <p><strong>Description:</strong> Join us for a hands-on creative writing session where you'll learn techniques to improve your storytelling skills.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Book Now</button>
-                </div>
+            </div>
+
+            <div class="events-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Attendees</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <!-- In your event_dashboard.html -->
+<tbody>
+    {% for event in events %}
+    <tr>
+        <td>{{ event.name }}</td>
+        <td>{{ event.date|date:"d M Y" }}</td>
+        <td>{{ event.location }}</td>
+        <td><span class="event-status status-{{ event.status }}">{{ event.get_status_display }}</span></td>
+        <td>{{ event.current_attendees }}/{{ event.max_attendees }}</td>
+        <td>
+            <a href="{% url 'edit_event' event.pk %}" class="action-btn" title="Edit">
+                <i class="fas fa-edit"></i>
+            </a>
+            <a href="{% url 'delete_event' event.pk %}" class="action-btn" title="Delete">
+                <i class="fas fa-trash"></i>
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</tbody>
+
+<!-- Update the Add Event button -->
+
+                </table>
             </div>
         </div>
     </div>
 
-    <!-- Modal 2 -->
-    <div class="modal fade" id="eventModal2" tabindex="-1" aria-labelledby="eventModal2Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModal2Label">Art Exhibition</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Date:</strong> 2023-10-20</p>
-                    <p><strong>Time:</strong> 2:00 PM - 5:00 PM</p>
-                    <p><strong>Location:</strong> Art Gallery, Main Hall</p>
-                    <p><strong>Description:</strong> Explore the latest works from local artists and get inspired by their creativity.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Book Now</button>
-                </div>
+    <!-- Add Event Modal -->
+    <div class="modal" id="eventModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Add New Event</h2>
+                <button class="close-btn" id="closeModalBtn">&times;</button>
             </div>
-        </div>
-    </div>
+            <div class="modal-body">
+                <form id="eventForm">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="eventName">Event Name</label>
+                            <input type="text" id="eventName" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="eventDate">Date</label>
+                            <input type="date" id="eventDate" required>
+                        </div>
+                    </div>
 
-    <!-- Modal 3 -->
-    <div class="modal fade" id="eventModal3" tabindex="-1" aria-labelledby="eventModal3Label" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="eventModal3Label">Community Potluck</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Date:</strong> 2023-10-25</p>
-                    <p><strong>Time:</strong> 6:00 PM - 8:00 PM</p>
-                    <p><strong>Location:</strong> Community Center, Dining Hall</p>
-                    <p><strong>Description:</strong> Bring a dish and enjoy a meal with the community. A great opportunity to meet new people and share delicious food.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Book Now</button>
-                </div>
+                    <div class="form-group">
+                        <label for="eventLocation">Location</label>
+                        <input type="text" id="eventLocation" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="maxAttendees">Maximum Attendees</label>
+                        <input type="number" id="maxAttendees" min="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventDescription">Description</label>
+                        <textarea id="eventDescription" required></textarea>
+                    </div>
+                
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-outline" id="cancelBtn">Cancel</button>
+                <button class="btn btn-primary" id="saveEventBtn">Save Event</button>
             </div>
         </div>
     </div>
 
     <!-- Footer -->
-    <footer class="footer text-center">
-        <div class="container">
-            <p>Follow us on:</p>
-            <a href="#" target="_blank"><i class="fab fa-facebook fa-2x"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-twitter fa-2x"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-instagram fa-2x"></i></a>
-            <a href="#" target="_blank"><i class="fab fa-linkedin fa-2x"></i></a>
-            <p class="mt-3">&copy; 2023 Together Culture. All rights reserved.</p>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Together Culture UK</h3>
+                <p>Celebrating diversity and fostering cultural understanding through innovative programs and events.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="#">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Our Programs</a>
+                <a href="#">Upcoming Events</a>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Cultural Street, London, UK</p>
+                <p><i class="fas fa-phone-alt"></i> +44 123 456 7890</p>
+                <p><i class="fas fa-envelope"></i> contact@togetherculture.uk</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Together Culture UK. All rights reserved.
         </div>
     </footer>
 
-    <!-- Bootstrap JS and Dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+    <script>
+       // Modal functionality
+const modal = document.getElementById('eventModal');
+const addEventBtn = document.getElementById('addEventBtn');
+const closeModalBtn = document.getElementById('closeModalBtn');
+const cancelBtn = document.getElementById('cancelBtn');
+const saveEventBtn = document.getElementById('saveEventBtn');
+
+// Open modal
+addEventBtn.addEventListener('click', (event) => {
+    event.preventDefault();  // Prevent any accidental form submission
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+});
+
+// Close modal
+function closeModal() {
+    modal.style.display = 'none';
+    document.body.style.overflow = 'auto';
+}
+
+closeModalBtn.addEventListener('click', closeModal);
+cancelBtn.addEventListener('click', closeModal);
+
+// Close when clicking outside modal
+window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+        closeModal();
+    }
+});
+
+// Save event
+saveEventBtn.addEventListener('click', (event) => {
+    event.preventDefault();  // Prevent form submission
+
+    const eventName = document.getElementById('eventName').value;
+    const eventDate = document.getElementById('eventDate').value;
+
+    if (eventName && eventDate) {
+        alert(`Event "${eventName}" scheduled for ${new Date(eventDate).toLocaleDateString()} has been saved!`);
+        document.getElementById('eventForm').reset();
+        closeModal();
+
+        // In a real app, you would add the event to the table here
+    } else {
+        alert('Please fill in all required fields');
+    }
+});
+
+// Search functionality
+document.querySelector('.search-bar input').addEventListener('input', function(e) {
+    const searchTerm = e.target.value.toLowerCase();
+    const rows = document.querySelectorAll('.events-table tbody tr');
+
+    rows.forEach(row => {
+        const eventName = row.cells[0].textContent.toLowerCase();
+        const location = row.cells[2].textContent.toLowerCase();
+
+        if (eventName.includes(searchTerm) || location.includes(searchTerm)) {
+            row.style.display = '';
+        } else {
+            row.style.display = 'none';
+        }
+    });
+});
+
+// Set minimum date to today for event date
+document.getElementById('eventDate').min = new Date().toISOString().split('T')[0];
+
+    </script>
 </body>
 </html>

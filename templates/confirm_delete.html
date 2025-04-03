@@ -1,0 +1,22 @@
+{% extends 'events.html' %}
+
+{% block content %}
+<div class="modal" style="display: block;">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2>Confirm Delete</h2>
+            <a href="{% url 'event_dashboard' %}" class="close-btn">&times;</a>
+        </div>
+        <div class="modal-body">
+            <p>Are you sure you want to delete "{{ event.name }}"?</p>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-footer">
+                    <a href="{% url 'event_dashboard' %}" class="btn btn-outline">Cancel</a>
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
