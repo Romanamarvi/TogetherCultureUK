@@ -1,286 +1,533 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Data Analysis Dashboard - Together Culture</title>
-  <!-- Font Awesome for icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- Chart.js Library -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style>
-    /* Global Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
-      line-height: 1.6;
-    }
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-    /* Navigation Bar */
-    .navbar {
-      background: #333;
-      color: #fff;
-      padding: 15px 20px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-    .navbar .logo {
-      font-size: 1.8rem;
-      font-weight: bold;
-    }
-    .navbar .nav-links {
-      display: flex;
-      flex-wrap: wrap;
-    }
-    .navbar .nav-links a {
-      color: #fff;
-      margin: 0 10px;
-      font-size: 1rem;
-      padding: 5px 0;
-    }
-    .navbar .user-info {
-      margin-right: 10px;
-      font-size: 1rem;
-    }
-    .navbar .logout-btn {
-      padding: 8px 15px;
-      background: #dc3545;
-      border: none;
-      border-radius: 4px;
-      color: #fff;
-      cursor: pointer;
-      transition: background 0.3s ease;
-    }
-    .navbar .logout-btn:hover {
-      background: #c82333;
-    }
-    /* Main Container */
-    .container {
-      max-width: 1200px;
-      margin: 20px auto;
-      padding: 0 20px;
-    }
-    /* Section Styles */
-    section {
-      background: #fff;
-      padding: 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    section h2 {
-      margin-bottom: 15px;
-      color: #007BFF;
-    }
-    /* Community Journey Tracking */
-    .community-journey ul {
-      list-style-type: decimal;
-      margin-left: 20px;
-    }
-    /* Behavioral Tagging (Sample Tag Cloud) */
-    .tag-cloud span {
-      background: #e0f7fa;
-      padding: 5px 10px;
-      margin: 5px;
-      border-radius: 4px;
-      display: inline-block;
-    }
-    /* Graph Container */
-    .graph-container {
-      position: relative;
-      width: 100%;
-      max-width: 800px;
-      margin: auto;
-    }
-    /* Custom Report Form */
-    .report-form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      align-items: center;
-    }
-    .report-form input, .report-form select {
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      flex: 1;
-      min-width: 150px;
-    }
-    .report-form button {
-      padding: 10px 20px;
-      background: #28a745;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    /* Export Button */
-    .export-btn {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #ffc107;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    /* Footer */
-    footer {
-      background: #333;
-      color: #fff;
-      text-align: center;
-      padding: 20px;
-      margin-top: 20px;
-    }
-    footer p {
-      margin: 5px 0;
-    }
-    footer a {
-      color: #fff;
-      margin: 0 5px;
-    }
-    /* Responsive Styles */
-    @media (max-width: 768px) {
-      .navbar {
-        flex-direction: column;
-        align-items: flex-start;
-      }
-      .navbar .nav-links {
-        margin-top: 10px;
-      }
-      .report-form {
-        flex-direction: column;
-      }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Dashboard | Together Culture UK</title>
+    <style>
+        /* Color variables */
+        :root {
+            --primary: #6C5B7B;
+            --primary-light: #8A6FA8;
+            --primary-dark: #4C3D5F;
+            --secondary: #C06C84;
+            --accent: #F67280;
+            --light: #F8F9FA;
+            --dark: #343A40;
+            --gray-light: #E9ECEF;
+        }
+
+        /* Base styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f8f9fa;
+            color: var(--primary-dark);
+        }
+
+        /* Top Navigation Bar */
+        .top-nav {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(108, 91, 123, 0.2);
+            position: relative;
+            z-index: 10;
+        }
+
+        .top-nav h1 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .user-profile img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Main Layout */
+        .main-content {
+            display: flex;
+            flex: 1;
+        }
+
+        /* Left Navigation */
+        .left-nav {
+            width: 240px;
+            background: white;
+            padding: 1.5rem 0;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 5;
+        }
+
+        .nav-header {
+            padding: 0 1.5rem 1.5rem;
+            border-bottom: 1px solid var(--gray-light);
+            margin-bottom: 1rem;
+        }
+
+        .nav-header h2 {
+            font-size: 1.1rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        .left-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--dark);
+            text-decoration: none;
+            padding: 0.75rem 1.5rem;
+            margin: 0.25rem 0;
+            transition: all 0.3s ease;
+            font-size: 0.95rem;
+            border-left: 3px solid transparent;
+        }
+
+        .left-nav a i {
+            width: 20px;
+            text-align: center;
+            color: var(--primary);
+        }
+
+        .left-nav a:hover {
+            background-color: rgba(108, 91, 123, 0.05);
+            color: var(--primary);
+        }
+
+        .left-nav a.active {
+            background-color: rgba(108, 91, 123, 0.1);
+            color: var(--primary);
+            border-left: 3px solid var(--primary);
+            font-weight: 500;
+        }
+
+        .left-nav li {
+            list-style-type: none;
+        }
+
+        /* Content Area */
+        .content {
+            flex: 1;
+            padding: 2rem;
+            background-color: var(--light);
+        }
+
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .content-header h1 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .time-period-selector {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .time-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--gray-light);
+            background: white;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .time-btn.active {
+            background: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        .time-btn:hover:not(.active) {
+            background: rgba(108, 91, 123, 0.05);
+        }
+
+        /* Dashboard Widgets */
+        .dashboard-widgets {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .stat-card h3 {
+            color: var(--primary);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-change {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.9rem;
+        }
+
+        .stat-change.positive {
+            color: #4CAF50;
+        }
+
+        .stat-change.negative {
+            color: #f44336;
+        }
+
+        /* Charts Section */
+        .charts-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        @media (max-width: 992px) {
+            .charts-section {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .chart-card h2 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .chart-container {
+            height: 300px;
+            position: relative;
+        }
+
+        /* Data Tables */
+        .data-table {
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .data-table h2 {
+            color: var(--primary);
+            font-size: 1.2rem;
+            padding: 1.5rem 1.5rem 0;
+            margin-bottom: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        th {
+            background-color: var(--primary);
+            color: white;
+            font-weight: 500;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background-color: rgba(108, 91, 123, 0.03);
+        }
+
+        /* Footer */
+        .footer {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                flex-direction: column;
+            }
+            
+            .left-nav {
+                width: 100%;
+                padding: 1rem;
+                display: flex;
+                overflow-x: auto;
+            }
+            
+            .nav-header {
+                display: none;
+            }
+            
+            .left-nav a {
+                white-space: nowrap;
+                padding: 0.5rem 1rem;
+                border-left: none;
+                border-bottom: 3px solid transparent;
+            }
+            
+            .left-nav a.active {
+                border-left: none;
+                border-bottom: 3px solid var(--primary);
+            }
+            
+            .content-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+            
+            .time-period-selector {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="logo">Together Culture</div>
-    <div class="nav-links">
-      <a href="#">Data Analysis</a>
-      <a href="#">Members</a>
-      <span class="user-info">Welcome, {{ request.user.username }}</span>
-
-      <form action="{% url 'logout' %}" method="post" style="display:inline;">
-       
-        <button type="submit" class="logout-btn">Logout</button>
-      </form>
+    <!-- Top Navigation Bar -->
+    <div class="top-nav">
+        <h1>Together Culture UK</h1>
+        <div class="user-profile">
+            <img src="https://ui-avatars.com/api/?name=Admin&background=6C5B7B&color=fff" alt="Admin">
+            <span>Welcome, {{ request.user.username }}</span>
+        </div>
     </div>
-  </nav>
 
-  <!-- Main Container -->
-  <div class="container">
-    <!-- Community Journey Tracking Section -->
-    <section class="community-journey">
-      <h2>Community Journey Tracking</h2>
-      <p>Track how members advance along the community journey to recognize significant engagement patterns:</p>
-      <ul>
-        <li>Sign Up &amp; Orientation</li>
-        <li>Initial Engagement</li>
-        <li>Active Participation</li>
-        <li>Advanced Engagement</li>
-        <li>Community Leadership</li>
-      </ul>
-    </section>
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Left Vertical Navigation Bar -->
+        <div class="left-nav">
+            <div class="nav-header">
+                <h2>Dashboard</h2>
+            </div>
+            <a href="{% url 'events' %}"><i class="fas fa-calendar-alt"></i> Events</a>
+            <a href="{% url 'members' %}"><i class="fas fa-users"></i> Members</a>
+            <a href="{% url 'analysis_dashboard' %}" class="active"><i class="fas fa-chart-bar"></i> Analytics</a>
+            <li><a href="{% url 'logout' %}"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+        </div>
 
-    <!-- Behavioral Tagging Section -->
-    <section class="behavioral-tagging">
-      <h2>Behavioral Tagging</h2>
-      <p>Tags assigned based on member interests and interactions:</p>
-      <div class="tag-cloud">
-        <span>Active</span>
-        <span>Creative</span>
-        <span>Collaborative</span>
-        <span>Innovative</span>
-        <span>Supportive</span>
-      </div>
-    </section>
+        <!-- Content Area -->
+        <div class="content">
+            <div class="content-header">
+                <h1>Analytics Dashboard</h1>
+                <div class="time-period-selector">
+                    <button class="time-btn active">Today</button>
+                    <button class="time-btn">Week</button>
+                    <button class="time-btn">Month</button>
+                    <button class="time-btn">Quarter</button>
+                    <button class="time-btn">Year</button>
+                    <button class="time-btn">All Time</button>
+                </div>
+            </div>
 
-    <!-- Trend Analysis Dashboard Section -->
-    <section class="trend-analysis">
-      <h2>Trend Analysis Dashboard</h2>
-      <p>Visual reports and charts that consolidate engagement data:</p>
-      <div class="graph-container">
-        <canvas id="trendChart"></canvas>
-      </div>
-      <script>
-        // Sample Chart.js line graph
-        const ctx = document.getElementById('trendChart').getContext('2d');
-        const trendChart = new Chart(ctx, {
-          type: 'line',
-          data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'], // Sample data labels
-            datasets: [{
-              label: 'Member Engagement',
-              data: [15, 25, 10, 30, 20, 35], // Sample data values
-              backgroundColor: 'rgba(0, 123, 255, 0.2)',
-              borderColor: 'rgba(0, 123, 255, 1)',
-              borderWidth: 2,
-              fill: true,
-            }]
-          },
-          options: {
-            responsive: true,
-            scales: {
-              y: {
-                beginAtZero: true,
-              }
+            <!-- Stats Widgets -->
+            <div class="dashboard-widgets">
+                    <div class="stat-card">
+                            <h3><i class="fas fa-users"></i> Total Members</h3>
+                            <div class="stat-value">{{ total_members }}</div>
+                            <div class="stat-change positive">
+                                <i class="fas fa-arrow-up"></i> 12% from last month
+                            </div>
+                        </div>
+                        
+                       
+                            <div class="stat-card">
+                                    <h3><i class="fas fa-calendar"></i> Total Events</h3>
+                                    <div class="stat-value">{{ total_events }}</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <h3><i class="fas fa-clock"></i> Upcoming Events</h3>
+                                    <div class="stat-value">{{ upcoming_events }}</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <h3><i class="fas fa-play"></i> Ongoing Events</h3>
+                                    <div class="stat-value">{{ ongoing_events }}</div>
+                                </div>
+                                
+                                <div class="stat-card">
+                                    <h3><i class="fas fa-check-circle"></i> Completed Events</h3>
+                                    <div class="stat-value">{{ completed_events }}</div>
+                                </div>
+            </div>                                
+
+            <!-- Charts Section -->
+            <div class="charts-section">
+                <div class="chart-card">
+                    <h2>Member Growth Over Time</h2>
+                    <div class="chart-container">
+                        <canvas id="membersChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h2>Event Attendance</h2>
+                    <div class="chart-container">
+                        <canvas id="attendanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Additional Charts -->
+            <div class="charts-section">
+                <div class="chart-card" style="width: 100%;">
+                    <h2>Membership Types</h2>
+                    <div class="chart-container">
+                        <canvas id="membershipChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Events Table -->
+            <div class="data-table">
+                <h2>Top Performing Events</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Current Enrollment</th>
+                            <th>Max Capicity</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for event in events %}
+                              <tr>
+                                  <td>{{ event.name }}</td>
+                                  <td>{{ event.date|date:"d M Y" }}</td>
+                                  <td>{{ event.location}}</td>
+                                  <td>{{ event.status}}</td>
+                                  <td>{{ event.current_attendees}}</td>
+                                  <td>{{ event.max_attendees}}</td>
+                              </tr>
+                            {% empty %}
+                              <tr>
+                                  <td colspan="5">No events found.</td>
+                              </tr>
+                            {% endfor %}
+                          </tbody>
+                          
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2025 Together Culture UK. All rights reserved.
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const membersChart = new Chart(document.getElementById('membersChart'), {
+            type: 'line',
+            data: {
+                labels: {{ months|safe }},
+                datasets: [{
+                    label: 'New Members',
+                    data: {{ member_counts|safe }},
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    fill: false,
+                    tension: 0.3
+                }]
             }
-          }
         });
-      </script>
-    </section>
+    
+        const attendanceChart = new Chart(document.getElementById('attendanceChart'), {
+            type: 'bar',
+            data: {
+                labels: {{ event_names|safe }},
+                datasets: [{
+                    label: 'Attendees',
+                    data: {{ attendance_counts|safe }},
+                    backgroundColor: 'rgba(153, 102, 255, 0.7)'
+                }]
+            }
+        });
+    
+        const membershipChart = new Chart(document.getElementById('membershipChart'), {
+            type: 'pie',
+            data: {
+                labels: {{ membership_labels|safe }},
+                datasets: [{
+                    label: 'Membership Types',
+                    data: {{ membership_counts|safe }},
+                    backgroundColor: ['#ff6384', '#36a2eb', '#cc65fe', '#ffce56']
+                }]
+            }
+        });
+    
 
-    <!-- Custom Report Generation Section -->
-    <section class="custom-report">
-      <h2>Custom Report Generation</h2>
-      <p>Create tailored reports by applying filters to data (e.g., events, dates, member tags):</p>
-      <form class="report-form">
-        <input type="text" placeholder="Event Name" name="event_name">
-        <input type="date" name="start_date">
-        <input type="date" name="end_date">
-        <select name="tag">
-          <option value="">Select Tag</option>
-          <option value="active">Active</option>
-          <option value="creative">Creative</option>
-          <option value="collaborative">Collaborative</option>
-          <option value="innovative">Innovative</option>
-        </select>
-        <button type="submit">Generate Report</button>
-      </form>
-    </section>
-
-    <!-- Data Export Functionality Section -->
-    <section class="data-export">
-      <h2>Data Export Functionality</h2>
-      <p>Export member and activity data for further analysis using external tools:</p>
-      <button class="export-btn">Export Data</button>
-    </section>
-  </div>
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Together Culture. All Rights Reserved.</p>
-    <p>
-      Follow us:
-      <a href="#"><i class="fab fa-facebook-f"></i></a>
-      <a href="#"><i class="fab fa-twitter"></i></a>
-      <a href="#"><i class="fab fa-instagram"></i></a>
-      <a href="#"><i class="fab fa-linkedin-in"></i></a>
-    </p>
-  </footer>
+    });
+    </script>
+    
+    
+    
 </body>
 </html>
