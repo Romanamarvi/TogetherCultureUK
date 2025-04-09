@@ -128,6 +128,7 @@ class LogoutAPI(generics.GenericAPIView):
 
     def post(self, request, *args, **kwargs):
         logout(request)
+        request.session.flush()
         return Response({"message": "Logged out successfully."})
 
 # Get User API
