@@ -5,7 +5,7 @@ from django.urls import path, include  # Make sure 'include' is imported
 
 
 urlpatterns = [
-    path('admin/login/', views.admin_login, name='admin_login'),
+    path('', views.admin_login, name='admin_login'),
     path('admin/dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('add-member/', views.add_member, name='add_member'),
@@ -17,6 +17,8 @@ urlpatterns = [
     path('events_dashboard/', views.send_bulk_message, name='events'),
     path('analysis_dashboard/', include('analysis_dashboard.urls')), 
     path('analysis_dashboard/', view.analysis_dashboard, name='analysis_dashboard'),
+
+
     
 
 

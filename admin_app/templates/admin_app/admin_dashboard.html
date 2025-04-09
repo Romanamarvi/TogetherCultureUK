@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin Dashboard - Together Culture</title>
+  <title>Admin Dashboard - Together Culture UK</title>
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <!-- Chart.js Library -->
@@ -21,7 +21,7 @@
         body {
           font-family: Arial, sans-serif;
           background: #f9f9f9;
-          color: #333;
+          color: #6C5B7B;
           line-height: 1.6;
         }
         a {
@@ -30,7 +30,7 @@
         }
         /* Navbar */
         .navbar {
-          background: #333;
+          background: #6C5B7B;
           color: #fff;
           padding: 15px 20px;
           display: flex;
@@ -196,7 +196,7 @@
         }
         /* Footer */
         footer {
-          background: #333;
+          background: #6C5B7B;
           color: #fff;
           text-align: center;
           padding: 20px;
@@ -229,12 +229,11 @@
     
   <!-- Navigation Bar -->
   <nav class="navbar">
-    <div class="logo">Together Culture Admin</div>
+    <div class="logo">Together Culture UK Admin</div>
     <div class="nav-links">
       <a href="#">Dashboard</a>
       <a href="{% url 'members' %}">Members</a>
       <a href="{% url 'events' %}">Events</a>
-      <a href="#">Reports</a>
       <a href="{% url 'analysis_dashboard' %}">analysis_dashboard</a>
       <span class="user-info">Welcome, {{ request.user.username }}</span>
       <form action="{% url 'logout' %}" method="post" style="display:inline;">
@@ -341,7 +340,7 @@
 
   <!-- Footer -->
   <footer>
-    <p>&copy; 2025 Together Culture. All Rights Reserved.</p>
+    <p>&copy; 2025 Together Culture UK. All Rights Reserved.</p>
     <p>
       Follow us:
       <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -350,40 +349,5 @@
       <a href="#"><i class="fab fa-linkedin-in"></i></a>
     </p>
   </footer>
-
-  <!-- Chart.js Script for Attendance Chart -->
-  <script>
-    const ctx = document.getElementById('attendanceChart').getContext('2d');
-    const attendanceChart = new Chart(ctx, {
-      type: 'bar',
-      data: {
-        labels: [{% for event in events %}"{{ event.name }}",{% endfor %}], // Event names
-        datasets: [{
-          label: 'Number of Attendees',
-          data: [{% for event in events %}{{ event.attendees }},{% endfor %}], // Attendee data
-          backgroundColor: [
-            'rgba(0, 123, 255, 0.7)',
-            'rgba(40, 167, 69, 0.7)'
-          ],
-          borderColor: [
-            'rgba(0, 123, 255, 1)',
-            'rgba(40, 167, 69, 1)'
-          ],
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              stepSize: 5
-            }
-          }
-        }
-      }
-    });
-  </script>
 </body>
 </html>
