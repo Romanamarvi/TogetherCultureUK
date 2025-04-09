@@ -9,27 +9,109 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'Register_styles.css' %}">
 </head>
+<style>
+   .field-hints {
+    font-size: 0.85rem;
+    margin-left: 35px;
+    margin-top: 4px;
+    color: #666;
+    list-style-type: disc;
+}
+
+.error-message {
+    color: red;
+    font-size: 0.85rem;
+    margin-left: 35px;
+    margin-top: 4px;
+}
+/* Add this to your CSS */
+.interests {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 700;
+    color: #333;
+}
+label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 100;
+    color: #333;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px 30px; /* Vertical and horizontal gap */
+    margin-top: 8px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1 1 calc(33% - 30px); /* Three columns with gap adjustment */
+    min-width: 200px;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+    accent-color: #4CAF50;
+}
+
+/* Optional: Add some vertical spacing between sections */
+.input-group.interests {
+    margin-bottom: 20px;
+}
+
+</style>
 <body>
     <div class="registration-container">
         <h2>Register for <span>Together Culture UK</span></h2>
         <form id="registration-form">
-            <!-- Name -->
-            <div class="input-group">
-                <i class="fas fa-user"></i>
-                <input type="text" id="name" name="name" placeholder="Name" required>
-            </div>
         
+            <!-- Username -->
+<div class="input-group">
+        <i class="fas fa-user"></i>
+        <input type="text" id="name" name="name" placeholder="Username" required>
+        
+    </div>
+    <div class="input-group">
+            <div id="name-error" class="error-message"></div>
+    </div>
+    <div class="input-group">
+            <ul class="field-hints">
+                    <li>Required. 150 characters or fewer.</li>
+                    <li>Letters, digits and @/./+/-/_ only.</li>
+                </ul>
+    </div>
+    
             <!-- Email -->
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
                 <input type="email" id="email" name="email" placeholder="Email" required>
             </div>
         
+    
             <!-- Password -->
             <div class="input-group">
-                <i class="fas fa-lock"></i>
-                <input type="password" id="password" name="password" placeholder="Password" required>
-            </div>
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" name="password" placeholder="Password" required>
+                    
+                </div>
+                <div class="input-group">
+                        <div id="password-error" class="error-message"></div>
+                </div>
+        <div class="input-group">
+                <ul class="field-hints">
+                        <li>Your password can’t be too similar to your name or email.</li>
+                        <li>Must contain at least 8 characters.</li>
+                        <li>Can’t be a commonly used password.</li>
+                        <li>Can’t be entirely numeric.</li>
+                    </ul>
+        </div>
+        
         
             <!-- Confirm Password -->
             <div class="input-group">
@@ -55,10 +137,19 @@
             </div>
         
             <!-- Benefits -->
-            <div class="input-group">
-                <i class="fas fa-gift"></i>
-                <textarea id="benefits" name="benefits" rows="4" placeholder="Describe the benefits you're interested in"></textarea>
-            </div>
+           <!-- Benefits -->
+<div class="input-group interests">
+        <label>Benefits you're interested in:</label>
+        <div class="checkbox-group">
+            <label><input type="checkbox" name="benefits" value="Workshop Access"> Workshop Access</label>
+            <label><input type="checkbox" name="benefits" value="Networking Events"> Networking Events</label>
+            <label><input type="checkbox" name="benefits" value="Newsletter Subscription"> Newsletter Subscription</label>
+            <label><input type="checkbox" name="benefits" value="Creative Workspace"> Creative Workspace</label>
+            <label><input type="checkbox" name="benefits" value="Mentorship Sessions"> Mentorship Sessions</label>
+            <label><input type="checkbox" name="benefits" value="Priority Booking"> Priority Booking</label>
+        </div>
+    </div>
+    
         
             <!-- Membership Type -->
             <div class="input-group">
@@ -71,11 +162,19 @@
                 </select>
             </div>
         
-            <!-- Contact -->
-            <div class="input-group">
-                <i class="fas fa-phone"></i>
-                <input type="tel" id="contact" name="contact" placeholder="Contact" required>
-            </div>
+           <!-- Contact -->
+<div class="input-group">
+        <i class="fas fa-phone"></i>
+        <input type="tel" id="contact" name="contact" placeholder="Contact (+44...)" required>
+    </div>
+    <div class="input-group">
+        <ul class="field-hints">
+            <li>Must be a UK number starting with +44 followed by 10 digits (e.g., +447911123456)</li>
+        </ul>
+        <div id="contact-error" style="color: red; font-size: 0.9rem;"></div>
+    </div>
+    
+                
         
             <!-- Address -->
             <div class="input-group">
@@ -96,42 +195,100 @@
     <script src="{% static 'script.js' %}"></script>
 </body>
 <script>
-    document.getElementById('registration-form').addEventListener('submit', function (e) {
-    e.preventDefault();  // Prevent the default form submission
-
-    // Get form data
-    const data = {
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        password: document.getElementById('password').value,
-        confirm_password: document.getElementById('confirm-password').value,
-        dob: document.getElementById('dob').value,
-        interests: Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(checkbox => checkbox.value),
-        benefits: document.getElementById('benefits').value,
-        membership_type: document.getElementById('membership-type').value,
-        contact: document.getElementById('contact').value,
-        address: document.getElementById('address').value,
-    };
-
-    // Send a POST request to the Django backend
-    fetch('/auth/register/', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': '{{ csrf_token }}',  // Add CSRF token for Django
-        },
-        body: JSON.stringify(data),
-    })
-    .then(response => response.json())
-    .then(data => {
-        alert(data.message);  // Show a success or error message
-        if (data.user) {
-            window.location.href = '/login/';  // Redirect to members page
+        function validateUsername(name) {
+            const usernameRegex = /^[\w.@+-]{1,150}$/;
+            if (!name) return "Username is required.";
+            if (name.length > 150) return "Username must be 150 characters or fewer.";
+            if (!usernameRegex.test(name)) return "Only letters, digits and @/./+/-/_ are allowed.";
+            return "";
         }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-    });
-});
-</script>
+        
+        function validatePassword(password, name, email) {
+            const commonPasswords = ["password", "12345678", "qwerty", "iloveyou", "admin"];
+            let errors = [];
+        
+            const hasLetter = /[a-zA-Z]/.test(password);
+            const hasNumber = /\d/.test(password);
+            const hasSpecialChar = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+        
+            if (!password) errors.push("Password is required.");
+            if (password.length < 8) errors.push("Must be at least 8 characters.");
+            if (/^\d+$/.test(password)) errors.push("Password can't be all numbers.");
+            if (commonPasswords.includes(password.toLowerCase())) errors.push("Commonly used password.");
+            if (name && password.toLowerCase().includes(name.toLowerCase())) errors.push("Too similar to name.");
+            if (email && password.toLowerCase().includes(email.toLowerCase())) errors.push("Too similar to email.");
+            if (!hasLetter || !hasNumber || !hasSpecialChar) {
+                errors.push("Must include letters, numbers, and at least one special character.");
+            }
+        
+            return errors;
+        }
+        
+        function validateContact(contact) {
+            const ukPhoneRegex = /^\+44\d{10}$/;
+            if (!ukPhoneRegex.test(contact)) {
+                return "Please enter a valid UK mobile number (e.g., +447911123456).";
+            }
+            return "";
+        }
+        
+        document.getElementById('registration-form').addEventListener('submit', function (e) {
+            e.preventDefault();
+        
+            // Gather values
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const contact = document.getElementById('contact').value.trim();
+        
+            // Validate
+            const nameError = validateUsername(name);
+            const passwordErrors = validatePassword(password, name, email);
+            const contactError = validateContact(contact);
+        
+            // Show validation errors
+            document.getElementById('name-error').textContent = nameError;
+            document.getElementById('password-error').innerHTML = passwordErrors.join('<br>');
+            document.getElementById('contact-error').textContent = contactError;
+        
+            // Stop if errors
+            if (nameError || passwordErrors.length > 0 || contactError) {
+                return;
+            }
+        
+            // Prepare form data
+            const data = {
+                name,
+                email,
+                password,
+                confirm_password: document.getElementById('confirm-password').value,
+                dob: document.getElementById('dob').value,
+                interests: Array.from(document.querySelectorAll('input[name="interests"]:checked')).map(cb => cb.value),
+                benefits: Array.from(document.querySelectorAll('input[name="benefits"]:checked')).map(cb => cb.value),
+                membership_type: document.getElementById('membership-type').value,
+                contact,
+                address: document.getElementById('address').value,
+            };
+        
+            // Submit via fetch
+            fetch('/auth/register/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',
+                },
+                body: JSON.stringify(data),
+            })
+            .then(res => res.json())
+            .then(data => {
+                alert(data.message);
+                if (data.user) window.location.href = '/login/';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+        </script>
+        
+    
 </html>

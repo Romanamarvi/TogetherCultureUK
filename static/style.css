@@ -30,7 +30,7 @@ body {
   /* Heading style */
   h2 {
     margin-bottom: 25px;
-    color: #333;
+    color: #6C5B7B;
   }
   
   /* Form layout */
@@ -56,7 +56,7 @@ body {
     width: 100%;
     padding: 12px;
     margin-top: 10px;
-    background: #3498db;
+    background: #6C5B7B;
     border: none;
     color: #fff;
     font-size: 16px;
@@ -76,7 +76,7 @@ body {
   }
   
   .signup-link a {
-    color: #3498db;
+    color: #6C5B7B;
     text-decoration: none;
   }
   

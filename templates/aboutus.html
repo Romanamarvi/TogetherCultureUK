@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us - Together Culture UK</title>
+    <!-- External Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+    
+    <!-- Internal CSS -->
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        h1, h2, h3 {
+            margin: 0;
+            padding: 0;
+        }
+
+        p {
+            margin: 0 0 15px;
+            color: #555;
+        }
+
+        a {
+            text-decoration: none;
+            color: #6C5B7B;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            background-color: #6C5B7B;
+            color: white;
+        }
+
+        .navbar .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .navbar .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .navbar .nav-item a {
+            color: white;
+            padding: 5px 10px;
+        }
+
+        /* Hero Section */
+        .about-hero {
+            background-size: cover;
+            background-position: center;
+            padding: 150px 30px;
+            text-align: center;
+            color: white;
+        }
+
+        .about-hero h1 {
+            font-size: 48px;
+        }
+
+        .about-hero p {
+            font-size: 24px;
+            margin-top: 10px;
+        }
+
+        /* Mission Section */
+        .mission-section {
+            display: flex;
+            justify-content: space-between;
+            padding: 50px 30px;
+            background-color: #f9f9f9;
+        }
+
+        .mission-section img {
+            max-width: 400px;
+            border-radius: 10px;
+        }
+
+        .mission-content {
+            max-width: 50%;
+        }
+
+        .mission-section h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+
+        .mission-section p {
+            font-size: 18px;
+            margin-bottom: 15px;
+        }
+
+        /* Core Values Section */
+        .values-section {
+            padding: 50px 30px;
+            background-color: white;
+            text-align: center;
+        }
+
+        .values-section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .values {
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .value-item {
+            text-align: center;
+            max-width: 220px;
+        }
+
+        .value-item i {
+            font-size: 48px;
+            color: #6C5B7B;
+            margin-bottom: 10px;
+        }
+
+        .value-item h3 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        /* Team Section */
+        .team-section {
+            padding: 50px 30px;
+            background-color: #f4f4f4;
+            text-align: center;
+        }
+
+        .team-section h2 {
+            font-size: 36px;
+            margin-bottom: 30px;
+        }
+
+        .team-members {
+            display: flex;
+            justify-content: space-around;
+            gap: 30px;
+        }
+
+        .team-member {
+            text-align: center;
+            max-width: 200px;
+        }
+
+        .team-member img {
+            max-width: 100%;
+            border-radius: 50%;
+            margin-bottom: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #6C5B7B;
+            color: white;
+            padding: 30px;
+        }
+
+        footer h3 {
+            margin-bottom: 15px;
+        }
+
+        footer p {
+            color: #bbb;
+        }
+
+        footer .footer-social .social-links a {
+            color: white;
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444;
+        }
+        .hero {
+  background: url('https://img.freepik.com/free-psd/creativity-banner-template-with-photo_23-2148908597.jpg') no-repeat center center/cover;
+    height: 80vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    color: #fff;
+    text-align: center;
+    padding: 0 20px;
+  }
+  
+  .hero::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 10, 0, 0.5);
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+  }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+        <div class="logo">Together Culture UK</div>
+        <ul class="nav-menu" id="nav-menu">
+            <li class="nav-item"><a href="/">Home</a></li>
+            <li class="nav-item"><a href="/festival">Festival</a></li>
+            <li class="nav-item"><a href="{% url 'register' %}">Membership</a></li>
+            <li class="nav-item"><a href="/Contact">Conatct</a></li>
+           
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+     <!-- Hero/Slider Section -->
+  <section class="hero" style="background-image: url('https://www.shutterstock.com/image-vector/colorful-cartoon-art-craft-group-600nw-2459974137.jpg');">
+    <div class="hero-content">
+      <h1>About Together Culture UK</h1>
+      <p style="color: #211">Creating a more equitable and ecological creative economy.</p>
+    </div>
+  </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="mission-content">
+            <h2>Our Mission</h2>
+            <p>
+                Together Culture UK aims to build a fair, sustainable, and inclusive future through creative initiatives,
+                community engagement, and ecological consciousness. We are dedicated to bridging the gap between
+                diverse communities and fostering a culture of collaboration.
+            </p>
+            <p>
+                By uniting individuals, artists, and organizations, we strive to create a platform where creativity
+                flourishes and everyone has the opportunity to contribute to a better future.
+            </p>
+        </div>
+        <img src="https://img.freepik.com/premium-photo/man-touching-mission-text-screen_218381-4228.jpg?semt=ais_hybrid" alt="Community engagement">
+    </section>
+
+    <!-- Our Values Section -->
+    <section class="values-section">
+        <h2>Our Core Values</h2>
+        <div class="values">
+            <div class="value-item">
+                <i class="fas fa-users"></i>
+                <h3>Inclusivity</h3>
+                <p>We welcome everyone, from diverse cultures and backgrounds, ensuring a space for all voices to be heard.</p>
+            </div>
+            <div class="value-item">
+                <i class="fas fa-leaf"></i>
+                <h3>Sustainability</h3>
+                <p>Our initiatives promote ecological practices that help reduce our environmental footprint.</p>
+            </div>
+            <div class="value-item">
+                <i class="fas fa-paint-brush"></i>
+                <h3>Creativity</h3>
+                <p>We encourage creative expression in all its forms, enabling people to collaborate and innovate.</p>
+            </div>
+            <div class="value-item">
+                <i class="fas fa-hands-helping"></i>
+                <h3>Collaboration</h3>
+                <p>By working together, we believe that we can achieve more and foster a sense of belonging.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section class="team-section">
+        <h2>Meet Our Team</h2>
+        <div class="team-members">
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnCwNH4Ch0iV5GbcycFuso8r4igYeM96TK4Q&s" alt="Team Member 1">
+                <h3>John Doe</h3>
+                <p>Founder & Creative Director</p>
+            </div>
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7c7WGBW2o7KziHylf_X4yk3eKxBkgdgxuGstj95pOK8IpcqrRPn8j6DOUSmBlCv-1gWM&usqp=CAU" alt="Team Member 2">
+                <h3>Jane Smith</h3>
+                <p>Community Manager</p>
+            </div>
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTnCwNH4Ch0iV5GbcycFuso8r4igYeM96TK4Q&s" alt="Team Member 3">
+                <h3>Michael Lee</h3>
+                <p>Events Coordinator</p>
+            </div>
+            <div class="team-member">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7c7WGBW2o7KziHylf_X4yk3eKxBkgdgxuGstj95pOK8IpcqrRPn8j6DOUSmBlCv-1gWM&usqp=CAU" alt="Team Member 4">
+                <h3>Sarah Brown</h3>
+                <p>Sustainability Officer</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-about">
+                <h3>About Together Culture UK</h3>
+                <p>Together Culture UK is a Community Interest Company dedicated to creating a fair, sustainable, and creative future.</p>
+            </div>
+            <div class="footer-social">
+                <h3>Follow Us</h3>
+                <div class="social-links">
+                    <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Together Culture UK. All Rights Reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

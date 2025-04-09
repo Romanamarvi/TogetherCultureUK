@@ -1,0 +1,200 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Profile | Together Culture UK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'Register_styles.css' %}">
+    <style>
+        :root {
+            --primary: #6C5B7B;
+            --primary-light: #8A6FA8;
+            --primary-dark: #4C3D5F;
+            --secondary: #C06C84;
+            --accent: #F67280;
+            --light: #F8F9FA;
+            --dark: #343A40;
+        }
+        
+        .field-hints {
+            font-size: 0.85rem;
+            margin-left: 35px;
+            margin-top: 4px;
+            color: var(--primary-light);
+            list-style-type: disc;
+        }
+        
+        .error-message {
+            color: var(--accent);
+            font-size: 0.85rem;
+            margin-left: 35px;
+            margin-top: 4px;
+        }
+        
+        .interests {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+        
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px 30px;
+            margin-top: 8px;
+        }
+        
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex: 1 1 calc(33% - 30px);
+            min-width: 200px;
+            font-weight: 100;
+            color: var(--primary-dark);
+        }
+        
+        .checkbox-group input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin: 0;
+            accent-color: var(--accent);
+        }
+        
+        button[type="submit"] {
+            background: var(--accent);
+            transition: all 0.3s ease;
+        }
+        
+        button[type="submit"]:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="registration-container">
+        <h2>Update Your <span>Together Culture UK</span> Profile</h2>
+        <form id="update-form" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            
+            <!-- Username -->
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" id="username" name="username" value="{{ user.username }}" required>
+            </div>
+            <div class="input-group">
+                <div id="username-error" class="error-message"></div>
+            </div>
+            <div class="input-group">
+                <ul class="field-hints">
+                    <li>Required. 150 characters or fewer.</li>
+                    <li>Letters, digits and @/./+/-/_ only.</li>
+                </ul>
+            </div>
+            
+            <!-- Email -->
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" name="email" value="{{ user.email }}" required>
+            </div>
+            
+            <!-- Date of Birth -->
+            <div class="input-group">
+                <i class="fas fa-calendar-alt"></i>
+                <input type="date" id="dob" name="dob" value="{{ profile.dob|date:'Y-m-d' }}" required>
+            </div>
+            
+            <!-- Interests -->
+            <div class="input-group interests">
+                <label>Interests:</label>
+                <div class="checkbox-group">
+                    {% for interest in interests_list %}
+                    <label>
+                        <input type="checkbox" name="interests" value="{{ interest }}" 
+                               {% if interest in profile.interests %}checked{% endif %}>
+                        {{ interest }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Benefits -->
+            <div class="input-group interests">
+                <label>Benefits you're interested in:</label>
+                <div class="checkbox-group">
+                    {% for benefit in benefits_list %}
+                    <label>
+                        <input type="checkbox" name="benefits" value="{{ benefit }}"
+                               {% if benefit in profile.benefits %}checked{% endif %}>
+                        {{ benefit }}
+                    </label>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <!-- Membership Type -->
+            <div class="input-group">
+                <i class="fas fa-users"></i>
+                <select id="membership-type" name="membership_type" required>
+                    <option value="">Select Membership Type</option>
+                    {% for value, label in membership_choices %}
+                    <option value="{{ value }}" {% if profile.membership_type == value %}selected{% endif %}>
+                        {{ label }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            
+            <!-- Contact -->
+            <div class="input-group">
+                <i class="fas fa-phone"></i>
+                <input type="tel" id="contact" name="contact" value="{{ profile.contact }}" required>
+            </div>
+            
+            <!-- Address -->
+            <div class="input-group">
+                <i class="fas fa-map-marker-alt"></i>
+                <textarea id="address" name="address" rows="4" required>{{ profile.address }}</textarea>
+            </div>
+            
+            <button type="submit">Update Profile</button>
+        </form>
+        
+        <p><a href="{% url 'membership_dashboard' %}">Back to Dashboard</a></p>
+    </div>
+
+    <script>
+       document.getElementById('update-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData(this);
+
+    fetch("{% url 'update_profile' %}", {
+        method: 'POST',
+        body: formData,
+        headers: {
+            'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+            'X-Requested-With': 'XMLHttpRequest'
+        }
+    })
+    .then(response => response.json())  // Expecting a JSON response
+    .then(data => {
+        if (data.status === 'success') {
+            alert(data.message);  // Use the message from the server
+            window.location.href = "{% url 'membership_dashboard' %}";  // Redirect after success
+        } else {
+            alert(data.error || 'Error updating profile');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while updating your profile.');
+    });
+});
+
+    </script>
+</body>
+</html>

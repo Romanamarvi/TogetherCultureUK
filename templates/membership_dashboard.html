@@ -285,7 +285,7 @@
     <div class="nav-links">
         <a href='/'>Home</a>
         <a href='/about'>About</a>
-        <a href="{% url 'events' %}">Events</a>
+        <a href="{% url 'member_events' %}">Events</a>
         <a href="{% url 'membership_dashboard' %}">Dashboard</a>
         <a href="{% url 'update_profile' %}">Update Profile</a>
         <span class="user-info">Welcome, {{ request.user.username }}</span>
@@ -299,27 +299,35 @@
   <!-- Main Container -->
   <div class="container">
     <!-- Benefits Dashboard Section -->
-    <section class="benefits-dashboard">
-      <h2>Your Benefits Dashboard</h2>
-      <div class="benefits">
-        <div class="benefit-card used">
-          <h3>Used Benefits</h3>
-          <ul>
-            <li>Workshop Access</li>
-            <li>Networking Events</li>
-            <li>Newsletter Subscription</li>
-          </ul>
-        </div>
-        <div class="benefit-card unused">
-          <h3>Unused Benefits</h3>
-          <ul>
-            <li>Creative Workspace</li>
-            <li>Mentorship Sessions</li>
-            <li>Priority Booking</li>
-          </ul>
-        </div>
-      </div>
-    </section>
+    <div class="container">
+        <!-- Benefits Dashboard Section -->
+        <section class="benefits-dashboard">
+            <h2>Your Benefits Dashboard</h2>
+            <div class="benefits">
+                <div class="benefit-card used">
+                    <h3>Used Benefits</h3>
+                    <ul>
+                        {% for benefit in used_benefits %}
+                            <li>{{ benefit }}</li>
+                        {% empty %}
+                            <li>No used benefits selected.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <div class="benefit-card unused">
+                    <h3>Unused Benefits</h3>
+                    <ul>
+                        {% for benefit in unused_benefits %}
+                            <li>{{ benefit }}</li>
+                        {% empty %}
+                            <li>All available benefits are used.</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    
 
     <!-- Membership Upgrade Request Section -->
     <section class="upgrade-request">
@@ -344,44 +352,7 @@
     </section>
 
     <!-- Membership Differentiation (Admin View) Section -->
-    <section class="membership-differentiation">
-      <h2>Membership Types (Admin View)</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Type</th>
-            <th>Description</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Community Member</td>
-            <td>Basic access to community events and resources.</td>
-            <td>
-              <button>Edit</button>
-              <button>Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Key Access Member</td>
-            <td>Priority and exclusive access to select events and benefits.</td>
-            <td>
-              <button>Edit</button>
-              <button>Delete</button>
-            </td>
-          </tr>
-          <tr>
-            <td>Creative Workspace Member</td>
-            <td>Access to creative resources and workspace facilities.</td>
-            <td>
-              <button>Edit</button>
-              <button>Delete</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </section>
+   
   </div>
 
   <!-- Footer -->

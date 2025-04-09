@@ -3,7 +3,7 @@
 
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #3498db, #2575fc);
+    background: linear-gradient(135deg, #6C5B7B, #6C5A7D);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -26,11 +26,11 @@ h2 {
     text-align: center;
     margin-bottom: 25px;
     font-size: 28px;
-    color: #333;
+    color: #6C5B7B;
 }
 
 h2 span {
-    color: #3498db;
+    color: #6C5B7B;
 }
 
 .input-group {
@@ -43,7 +43,7 @@ h2 span {
 .input-group i {
     position: absolute;
     left: 15px;
-    color: #3498db;
+    color: #6C5B7B;
     font-size: 18px;
 }
 
@@ -62,7 +62,7 @@ h2 span {
 .input-group input:focus,
 .input-group select:focus,
 .input-group textarea:focus {
-    border-color: #3498db;
+    border-color: #6C5B7B;
     outline: none;
 }
 
@@ -97,7 +97,7 @@ h2 span {
 button {
     width: 100%;
     padding: 12px;
-    background-color: #3498db;
+    background-color: #6C5B7B;
     color: #fff;
     border: none;
     border-radius: 8px;
@@ -107,7 +107,7 @@ button {
 }
 
 button:hover {
-    background-color: #2575fc;
+    background-color: #6C5B7B;
 }
 
 p {
@@ -117,7 +117,7 @@ p {
 }
 
 a {
-    color: #3498db;
+    color: #6C5B7B;
     text-decoration: none;
     font-weight: 500;
 }

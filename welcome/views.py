@@ -15,3 +15,15 @@ from django.contrib.auth import login
 
 def index(request):
     return render(request, 'welcome.html')
+
+
+def about(request):
+    return render(request, 'aboutus.html')
+
+def festival(request):
+    return render(request, 'festival.html')
+
+
+
+def Contact(request):
+    return render(request, 'contact.html')
