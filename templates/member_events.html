@@ -1,0 +1,668 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Events | Together Culture UK</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6C5B7B;
+            --primary-light: #8A6FA8;
+            --primary-dark: #4C3D5F;
+            --secondary: #C06C84;
+            --accent: #F67280;
+            --light: #F8F9FA;
+            --dark: #343A40;
+        }
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #6C5B7B;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    /* Navigation Bar */
+    .navbar {
+      background: #6C5B7B;
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar .logo {
+      font-size: 1.8rem;
+      font-weight: bold;
+    }
+    .navbar .nav-links {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .navbar .nav-links a {
+      color: #fff;
+      margin: 0 10px;
+      font-size: 1rem;
+      padding: 5px 0;
+    }
+    .navbar .user-info {
+      margin-right: 20px;
+      font-size: 1rem;
+    }
+    .navbar .logout-btn {
+      padding: 8px 15px;
+      background: #dc3545;
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    .navbar .logout-btn:hover {
+      background: #c82333;
+    }
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+    }
+    /* Section Styles */
+    section {
+      background: #fff;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    section h2 {
+      margin-bottom: 15px;
+      color: #6C5B7B;
+    }
+    /* Benefits Dashboard */
+    .benefits {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .benefit-card {
+      flex: 1;
+      min-width: 250px;
+      background: #fafafa;
+      padding: 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+    }
+    .benefit-card h3 {
+      margin-bottom: 10px;
+      font-size: 1.2rem;
+    }
+    .benefit-card ul {
+      list-style: disc inside;
+    }
+    /* Upgrade Request Form */
+    .upgrade-request form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+    .upgrade-request select {
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      flex: 1;
+      min-width: 200px;
+    }
+    .upgrade-request button {
+      padding: 10px 20px;
+      background: #6C5B7B;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Renewal Alert */
+    .renewal-alert p {
+      margin-bottom: 15px;
+    }
+    .renewal-alert .renew-btn {
+      padding: 10px 20px;
+      background: #6C5B7B;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    /* Membership Differentiation (Admin View) */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table, th, td {
+      border: 1px solid #6c5b7b;
+    }
+    th, td {
+      padding: 10px;
+      text-align: left;
+    }
+    th {
+      background: #6c5b7b
+    }
+    table button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-right: 5px;
+    }
+    table button:hover {
+      opacity: 0.8;
+    }
+    /* Footer */
+    footer {
+      background: #6C5B7B;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 20px;
+    }
+    footer p {
+      margin: 5px 0;
+    }
+    footer a {
+      color: #fff;
+      margin: 0 5px;
+    }
+    :root {
+            --primary: #6C5B7B;
+            --primary-light: #8A6FA8;
+            --primary-dark: #4C3D5F;
+            --secondary: #C06C84;
+            --accent: #F67280;
+            --light: #F8F9FA;
+            --dark: #343A40;
+        }
+   
+        /* Footer */
+        footer {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1.5rem;
+            position: relative;
+            display: inline-block;
+        }
+        
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -8px;
+            width: 50px;
+            height: 2px;
+            background: var(--accent);
+        }
+        
+        .footer-column p,
+        .footer-column a {
+            color: #E9ECEF;
+            margin-bottom: 1rem;
+            display: block;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-column a:hover {
+            color: var(--accent);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        .social-links a:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+            color: #E9ECEF;
+        }
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .navbar .nav-links {
+        margin-top: 10px;
+      }
+      .benefits {
+        flex-direction: column;
+      }
+    }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+        
+       
+        
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-profile img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        
+        .main-content {
+            display: flex;
+            min-height: calc(100vh - 60px);
+        }
+        
+        .left-nav {
+            width: 250px;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        
+        .left-nav a {
+            display: block;
+            padding: 0.75rem 1rem;
+            color: var(--dark);
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .left-nav a:hover, .left-nav a.active {
+            background-color: var(--primary-light);
+            color: white;
+        }
+        
+        .left-nav a i {
+            margin-right: 0.5rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .content {
+            flex: 1;
+            padding: 2rem;
+            background-color: var(--light);
+        }
+        
+        .content-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+        
+        .search-bar {
+            display: flex;
+            align-items: center;
+            background-color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        .search-bar input {
+            border: none;
+            outline: none;
+            padding: 0.5rem;
+            width: 250px;
+        }
+        
+        .events-table {
+            background-color: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        .event-status {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+        
+        .status-upcoming {
+            background-color: #d4edda;
+            color: #155724;
+        }
+        
+        .status-ongoing {
+            background-color: #fff3cd;
+            color: #856404;
+        }
+        
+        .status-completed {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+        
+        .register-btn {
+            background-color: #6c5b7b;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .register-btn:hover {
+            background-color: var(--secondary);
+        }
+        
+        .register-btn:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+        }
+        
+        .footer {
+            background-color: var(--primary-dark);
+            color: white;
+            padding: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .footer-column {
+            flex: 1;
+            padding: 0 1rem;
+        }
+        
+        .footer-column h3 {
+            margin-top: 0;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            display: inline-block;
+        }
+        
+        .footer-column a {
+            display: block;
+            color: white;
+            margin-bottom: 0.5rem;
+            text-decoration: none;
+        }
+        
+        .footer-column a:hover {
+            text-decoration: underline;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.25rem;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation Bar -->
+    <nav class="navbar">
+            <div class="logo">Together Culture UK</div>
+            <div class="nav-links">
+                <a href='/'>Home</a>
+                <a href='/about'>About</a>
+                <a href="{% url 'member_events' %}">Events</a>
+                <a href="{% url 'membership_dashboard' %}">Dashboard</a>
+                <a href="{% url 'update_profile' %}">Update Profile</a>
+                <span class="user-info">Welcome, {{ request.user.username }}</span>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit" style="background:none; border:none; color:inherit; cursor:pointer;">Logout</button>
+                </form>
+            </div>
+        </nav>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+        <!-- Left Vertical Navigation Bar -->
+
+
+        <!-- Content Area -->
+        <div class="content">
+            <div class="content-header">
+                <h1>Upcoming Events</h1>
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search events..." id="searchInput">
+                </div>
+            </div>
+
+            <div class="events-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Event Name</th>
+                            <th>Date</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Attendees</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                            {% for event in events %}
+                            <tr data-event-id="{{ event.id }}">
+                                <td>{{ event.name }}</td>
+                                <td>{{ event.date|date:"d M Y" }}</td>
+                                <td>{{ event.location }}</td>
+                                <td><span class="event-status status-{{ event.status }}">{{ event.get_status_display }}</span></td>
+                                <td>{{ event.current_attendees }}/{{ event.max_attendees }}</td>
+                                <td>
+                                    {% if event.status == 'upcoming' and event.current_attendees < event.max_attendees %}
+                                        {% if request.user in event.attendees.all %}
+                                            <!-- If the user is already registered, show "Registered" -->
+                                            <button class="register-btn" data-event-id="{{ event.id }}" disabled>Registered</button>
+                                        {% else %}
+                                            <button class="register-btn" data-event-id="{{ event.id }}" onclick="registerForEvent({{ event.id }})">Register</button>
+                                        {% endif %}
+                                    {% elif event.status == 'upcoming' %}
+                                        <button class="register-btn" disabled>Full</button>
+                                    {% else %}
+                                        <button class="register-btn" disabled>Closed</button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-column">
+                <h3>Together Culture UK</h3>
+                <p>Celebrating diversity and fostering cultural understanding through innovative programs and events.</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>Quick Links</h3>
+                <a href="#">Home</a>
+                <a href="#">About Us</a>
+                <a href="#">Our Programs</a>
+                <a href="#">Upcoming Events</a>
+            </div>
+            <div class="footer-column">
+                <h3>Contact Info</h3>
+                <p><i class="fas fa-map-marker-alt"></i> 123 Cultural Street, London, UK</p>
+                <p><i class="fas fa-phone-alt"></i> +44 123 456 7890</p>
+                <p><i class="fas fa-envelope"></i> contact@togetherculture.uk</p>
+            </div>
+        </div>
+        <div class="copyright">
+            &copy; 2025 Together Culture UK. All rights reserved.
+        </div>
+    </footer>
+
+    <script>
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('.events-table tbody tr');
+            
+            rows.forEach(row => {
+                const eventName = row.cells[0].textContent.toLowerCase();
+                const location = row.cells[2].textContent.toLowerCase();
+                
+                if (eventName.includes(searchTerm) || location.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        });
+        
+        function registerForEvent(eventId) {
+    if (confirm('Are you sure you want to register for this event?')) {
+        // Use Django's URL reversal by including a placeholder and replacing it in JS
+        let urlTemplate = "{% url 'register_for_event' 0 %}";
+        let url = urlTemplate.replace("0", eventId);
+        
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            },
+            credentials: 'same-origin'
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.json().then(err => Promise.reject(err));
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.success) {
+                alert(data.message);
+                // Update the attendees count on the page
+                const attendeesCell = document.querySelector(`tr[data-event-id="${eventId}"] td:nth-child(5)`);
+                if (attendeesCell) {
+                    // Update using values returned from the server
+                    attendeesCell.textContent = `${data.current_attendees}/${data.max_attendees || '?'}`;
+                }
+                // Update the button to show "Registered" for the current user
+                const btn = document.querySelector(`tr[data-event-id="${eventId}"] .register-btn`);
+                if (btn) {
+                    btn.disabled = true;
+                    btn.textContent = 'Registered';
+                }
+            } else {
+                alert(data.error || 'Error registering for event');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert(error.error || 'An error occurred while registering');
+        });
+    }
+}
+
+
+    </script>
+</body>
+</html>
