@@ -5,6 +5,7 @@ from .models import Event
 from .forms import EventForm
 
 # List of Events
+@login_required
 def event_list(request):
     events = Event.objects.all()
     return render(request, 'events.html', {'events': events})
